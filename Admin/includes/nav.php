@@ -112,3 +112,21 @@
                             </div>
                         </li>
                     </ul>
+                    <ul class="nav navbar-nav ml-auto mr-0">
+                        <li class="nav-item">
+                            <a href="login.html"
+                               class="nav-link"
+                               data-toggle="tooltip"
+                               data-title="Login"
+                               data-placement="bottom"
+                               data-boundary="window"><i class="material-icons">lock_open</i></a>
+                        </li>
+                        <li class="nav-item"><a
+                                   href="logout.php">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="signup.html"
+                               class="btn btn-outline-dark">Get Started</a>
+                        </li>
+                    </ul>
+        
