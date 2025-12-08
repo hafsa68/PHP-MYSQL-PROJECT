@@ -60,13 +60,22 @@ if(isset($_SESSION['email'])){
 if(isset($_POST['login'])){
     extract($_POST);
     $password = md5($password);
-    $sql = "SELECT * FROM users WHERE email ='$email' AND password ='$password'";
+    $sql = "SELECT * FROM users WHERE email ='$email' AND password ='$password' AND role = '$role'";
    $rawdata = $db->query($sql);
    $row = $rawdata->fetch_object();
    if ($rawdata->num_rows){
     $_SESSION['name'] = $row->full_name;
     $_SESSION['email'] =$email;
+    $_SESSION['role'] =$role;
+    if($role ==2){
     header("Location:dashboard.php");
+    }
+    if($role ==2){
+        header("Location:instructor-dashboard.php");
+    }
+    if($role ==3){
+        header("Location:student-dashboard.php");
+    }
    }
 }
 
@@ -142,6 +151,14 @@ if(isset($_POST['login'])){
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="role">
+                        <option value="">Login As</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Teacher</option>
+                        <option value="3">Student</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <button class="btn btn-block btn-primary"

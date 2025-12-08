@@ -1,3 +1,9 @@
+<?php include_once("Admin/includes/db_config.php");
+session_start();
+if(isset($_SESSION['email'])){
+    header("Location:Admin/dashboard.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en"
       dir="ltr">
@@ -52,6 +58,26 @@
     <body class="layout-default layout-login-centered-boxed">
 
         <div class="layout-login-centered-boxed__form card">
+            <?php
+if(isset($_POST['login'])){
+    extract($_POST);
+    $password = md5($password);
+    $sql = "SELECT * FROM users WHERE email ='$email' AND password ='$password'";
+   $rawdata = $db->query($sql);
+   $row = $rawdata->fetch_object();
+   if ($rawdata->num_rows){
+    $_SESSION['name'] = $row->full_name;
+    $_SESSION['email'] =$email;
+    header("Location:dashboard.php");
+   }else{
+    echo '<div class ="alert alert-danger">Incorrect email or password</div>';
+   }
+}
+
+
+
+?>
+            
             <div class="d-flex flex-column justify-content-center align-items-center mt-2 mb-5 navbar-light">
                 <a href="index.html"
                    class="navbar-brand flex-column mb-2 align-items-center mr-0"
@@ -86,7 +112,7 @@
                 <div class="page-separator__text bg-white">or</div>
             </div>
 
-            <form action="index.html"
+            <form action="" method="post"
                   novalidate>
                 <div class="form-group">
                     <label class="text-label"
@@ -96,7 +122,7 @@
                                type="email"
                                required=""
                                class="form-control form-control-prepended"
-                               placeholder="john@doe.com">
+                               placeholder="admin@gmail.com" name="email">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
                                 <span class="far fa-envelope"></span>
@@ -112,7 +138,7 @@
                                type="password"
                                required=""
                                class="form-control form-control-prepended"
-                               placeholder="Enter your password">
+                               placeholder="Enter your password" name="password">
                         <div class="input-group-prepend">
                             <div class="input-group-text">
                                 <span class="fa fa-key"></span>
@@ -122,7 +148,7 @@
                 </div>
                 <div class="form-group">
                     <button class="btn btn-block btn-primary"
-                            type="submit">Login</button>
+                            type="submit" name="login">Login</button>
                 </div>
                 <div class="form-group text-center">
                     <div class="custom-control custom-checkbox">
