@@ -1,9 +1,15 @@
-<?php include_once("includes/db_config.php");
+<?php
+include_once("includes/db_config.php");
 session_start();
-if(!isset($_SESSION['email'])){
-   header("Location:index.php");
+
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: 0");
+if (!isset($_SESSION['email']) || $_SESSION['role'] != 2) {
+    header("Location:index.php");
+    exit;
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en"
       dir="ltr">

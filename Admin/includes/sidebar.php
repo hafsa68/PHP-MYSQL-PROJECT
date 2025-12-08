@@ -52,7 +52,7 @@
                                     </li>
                                     <li class="sidebar-menu-item">
                                         <a class="sidebar-menu-button"
-                                           href="category_list.php">
+                                           href="category_manage.php">
                                             <span class="sidebar-menu-text">Manage Category</span>
                                         </a>
                                     </li>

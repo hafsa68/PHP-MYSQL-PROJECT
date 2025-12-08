@@ -373,36 +373,177 @@
 
             <!-- // END Header -->
 
-            <div class="pt-32pt">
-                <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
-                    <div class="flex d-flex flex-column flex-sm-row align-items-center">
+            <div class="row mb-32pt">
+                        <div class="col-lg-4">
+                            <div class="page-separator">
+                                <div class="page-separator__text">Search</div>
+                            </div>
+                            <p class="card-subtitle text-70 mb-16pt mb-lg-0">Add search functionality to your tables with List.js. Please read the <a href="http://listjs.com/"
+                                   target="_blank">official plugin documentation</a> for a full list of options.</p>
+                        </div>
+                        <div class="col-lg-8 d-flex align-items-center">
+                            <div class="flex"
+                                 style="max-width: 100%">
 
-                        <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                            <h2 class="mb-0">Forms</h2>
+                                <div class="card m-0">
 
-                            <ol class="breadcrumb p-0 m-0">
-                                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <div class="table-responsive"
+                                         data-toggle="lists"
+                                         data-lists-sort-by="js-lists-values-employee-name"
+                                         data-lists-values='["js-lists-values-employee-name", "js-lists-values-employer-name", "js-lists-values-projects", "js-lists-values-activity", "js-lists-values-earnings"]'>
 
-                                <li class="breadcrumb-item">
+                                        <div class="card-header">
+                                            <div class="search-form">
+                                                <input type="text"
+                                                       class="form-control search"
+                                                       placeholder="Search ...">
+                                                <button class="btn"
+                                                        type="button"><i class="material-icons">search</i></button>
+                                            </div>
+                                        </div>
 
-                                    <a href="">Components</a>
+                                        <table class="table mb-0 thead-border-top-0 table-nowrap">
+                                            <thead>
+                                                <tr>
 
-                                </li>
+                                                    <th>
+                                                        <a href="javascript:void(0)"
+                                                           class="sort"
+                                                           data-sort="js-lists-values-employee-name">Employee</a>
+                                                    </th>
 
-                                <li class="breadcrumb-item active">
+                                                    <th style="width: 37px;">Status</th>
 
-                                    Forms
+                                                    <th style="width: 120px;">
+                                                        <a href="javascript:void(0)"
+                                                           class="sort"
+                                                           data-sort="js-lists-values-activity">Activity</a>
+                                                    </th>
+                                                    <th style="width: 51px;">
+                                                        <a href="javascript:void(0)"
+                                                           class="sort"
+                                                           data-sort="js-lists-values-earnings">Earnings</a>
+                                                    </th>
+                                                    <th style="width: 24px;"
+                                                        class="pl-0"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="list"
+                                                   id="search">
 
-                                </li>
+                                                <tr>
 
-                            </ol>
+                                                    <td>
 
+                                                        <div class="d-flex flex-column">
+                                                            <p class="mb-0"><strong class="js-lists-values-employee-name">Michael Smith</strong></p>
+                                                            <small class="js-lists-values-employee-email text-50">lorna_kirlin@nora.biz</small>
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <a href=""
+                                                           class="chip chip-outline-secondary">Admin</a>
+
+                                                    </td>
+
+                                                    <td class="text-50 js-lists-values-activity small">3 days ago</td>
+                                                    <td class="js-lists-values-earnings small">$12,402</td>
+                                                    <td class="text-right pl-0">
+                                                        <a href=""
+                                                           class="text-50"><i class="material-icons">more_vert</i></a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+
+                                                    <td>
+
+                                                        <div class="d-flex flex-column">
+                                                            <p class="mb-0"><strong class="js-lists-values-employee-name">Connie Smith</strong></p>
+                                                            <small class="js-lists-values-employee-email text-50">paolo.zieme@gmail.com</small>
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <a href=""
+                                                           class="chip chip-outline-secondary">User</a>
+
+                                                    </td>
+
+                                                    <td class="text-50 js-lists-values-activity small">1 week ago</td>
+                                                    <td class="js-lists-values-earnings small">$1,943</td>
+                                                    <td class="text-right pl-0">
+                                                        <a href=""
+                                                           class="text-50"><i class="material-icons">more_vert</i></a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+
+                                                    <td>
+
+                                                        <div class="d-flex flex-column">
+                                                            <p class="mb-0"><strong class="js-lists-values-employee-name">John Connor</strong></p>
+                                                            <small class="js-lists-values-employee-email text-50">vida_glover@gmail.com</small>
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <a href=""
+                                                           class="chip chip-outline-secondary">Manager</a>
+
+                                                    </td>
+
+                                                    <td class="text-50 js-lists-values-activity small">2 weeks ago</td>
+                                                    <td class="js-lists-values-earnings small">$1,401</td>
+                                                    <td class="text-right pl-0">
+                                                        <a href=""
+                                                           class="text-50"><i class="material-icons">more_vert</i></a>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+
+                                                    <td>
+
+                                                        <div class="d-flex flex-column">
+                                                            <p class="mb-0"><strong class="js-lists-values-employee-name">Laza Bogdan</strong></p>
+                                                            <small class="js-lists-values-employee-email text-50">annabell.kris@yahoo.com</small>
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td>
+
+                                                        <a href=""
+                                                           class="chip chip-outline-secondary">Admin</a>
+
+                                                    </td>
+
+                                                    <td class="text-50 js-lists-values-activity small">3 weeks ago</td>
+                                                    <td class="js-lists-values-earnings small">$22,402</td>
+                                                    <td class="text-right pl-0">
+                                                        <a href=""
+                                                           class="text-50"><i class="material-icons">more_vert</i></a>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-
             <!-- BEFORE Page Content -->
 
             <!-- // END BEFORE Page Content -->
@@ -411,27 +552,7 @@
 
 
             <div class="container page__container page-section">
-                <?php
-                if (isset($_POST['submit'])) {
-                    $name = ($_POST['name']);
-                    $description = ($_POST['description']);
-                    $sql = "INSERT INTO categories (name, description, created_at) 
-        VALUES ('$name','$description', NOW())";
-
-                    $db->query($sql);
-                    if ($db->affected_rows) {
-                        echo '<div class="alert alert-soft-success d-flex"
-            role="alert">
-            <i class="material-icons mr-12pt">check_circle</i>
-            <div class="text-body">
-            Successfully Inserted
-            
-            </div> </div>';
-                    } else {
-                        echo ('Error');
-                    }
-                }
-                ?>
+                
                 <div class="row mb-32pt">
 
                     <div class="col-lg-8 d-flex align-items-center">
@@ -439,32 +560,6 @@
                         <div class="flex" style="max-width: 100%">
 
                             <!-- Form Start -->
-                            <form action="" method="POST">
-
-                                <div class="form-group">
-                                    <label class="form-label" for="categoryName">Category Name:</label>
-                                    <input type="text"
-                                        class="form-control"
-                                        id="categoryName"
-                                        name="name"
-                                        placeholder="Enter category name"
-                                        required>
-                                </div>
-
-                                <div class="form-group mt-3">
-                                    <label class="form-label" for="categoryDescription">Description:</label>
-                                    <textarea class="form-control"
-                                        id="categoryDescription"
-                                        name="description"
-                                        placeholder="Write something..."
-                                        rows="3"></textarea>
-                                </div>
-
-                                <button type="submit" name="submit" class="btn btn-primary mt-3">
-                                    Add New Category
-                                </button>
-
-                            </form>
                             <!-- Form End -->
 
                         </div>
