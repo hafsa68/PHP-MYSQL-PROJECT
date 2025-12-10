@@ -402,7 +402,16 @@
 
                 </div>
             </div>
+            <?php
+            $id = $_REQUEST['id'];
 
+            $sql = "SELECT * FROM categories WHERE id = '$id'";
+            $rawdata = $db->query($sql);
+            $row = $rawdata->fetch_object();
+
+
+
+            ?>
             <!-- BEFORE Page Content -->
 
             <!-- // END BEFORE Page Content -->
@@ -412,21 +421,23 @@
 
             <div class="container page__container page-section">
                 <?php
-                if (isset($_POST['submit'])) {
+                if (isset($_POST['update'])) {
                     $name = ($_POST['name']);
                     $description = ($_POST['description']);
-                    $sql = "INSERT INTO categories (name, description, created_at) 
-        VALUES ('$name','$description', NOW())";
-
-                    $db->query($sql);
+                    $id = $_POST['id'];
+                    $sql = "UPDATE categories SET name ='$name',description ='$description' WHERE id = '$id'";
+                     $db->query($sql);
+                     
                     if ($db->affected_rows) {
+                       
                         echo '<div class="alert alert-soft-success d-flex"
             role="alert">
             <i class="material-icons mr-12pt">check_circle</i>
             <div class="text-body">
-            Successfully Inserted
+           Update Successfully 
             
             </div> </div>';
+            
                     } else {
                         echo ('Error');
                     }
@@ -447,7 +458,7 @@
                                         class="form-control"
                                         id="categoryName"
                                         name="name"
-                                        placeholder="Enter category name"
+                                        placeholder="Enter category name" value="<?php echo $row->name; ?>" 
                                         required>
                                 </div>
 
@@ -457,12 +468,17 @@
                                         id="categoryDescription"
                                         name="description"
                                         placeholder="Write something..."
-                                        rows="3"></textarea>
+                                        rows="3"> <?php echo $row->description; ?></textarea>
                                 </div>
-
-                                <button type="submit" name="submit" class="btn btn-primary mt-3">
-                                    Add New Category
+                                        <input type="hidden" name="id" value="<?php echo $id ?>"> <br>
+                                <button type="submit" name="update" class="btn btn-primary mt-3">
+                                    Update Category
                                 </button>
+                                &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                               <a href="category_manage.php" class="btn btn-primary mt-3">CHECK</a>
 
                             </form>
                             <!-- Form End -->

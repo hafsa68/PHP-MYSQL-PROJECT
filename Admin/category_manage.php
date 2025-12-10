@@ -374,25 +374,19 @@
             <!-- // END Header -->
 
             <div class="row mb-32pt">
-                <div class="col-lg-4">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Search</div>
-                    </div>
-                    <p class="card-subtitle text-70 mb-16pt mb-lg-0">Add search functionality to your tables with List.js. Please read the <a href="http://listjs.com/"
-                            target="_blank">official plugin documentation</a> for a full list of options.</p>
-                </div>
-                <div class="col-lg-8 d-flex align-items-center">
+                
+                <div class="col-lg-12 d-flex align-items-center">
                     <div class="flex"
                         style="max-width: 100%">
 
-                        <?php
-                        $sql = "SELECT * FROM categories ORDER BY id desc";
-                        $list = $db->query($sql);
 
-
-                        ?>
                         <div class="card m-0">
+                            <?php
+                            $sql = "SELECT * FROM categories";
+                            $list = $db->query($sql);
 
+
+                            ?>
                             <div class="table-responsive"
                                 data-toggle="lists"
                                 data-lists-sort-by="js-lists-values-employee-name"
@@ -413,62 +407,67 @@
                                         <tr>
 
 
-                                            <th style="width: 37px;">ID</th>
-                                            <th style="width: 37px;">Name</th>
+                                            <th class="text-center" style="width: 37px;">ID</th>
+                                            <th class="text-center" style="width: 37px;">Name</th>
 
 
-                                            <th>
+                                            <th class="text-center">
                                                 <a href="javascript:void(0)"
                                                     class="sort"
                                                     data-sort="js-lists-values-employee-name">Description</a>
                                             </th>
 
-                                            <th style="width: 120px;">
+                                            <th class="text-center" style="width: 120px;">
                                                 <a href="javascript:void(0)"
                                                     class="sort"
                                                     data-sort="js-lists-values-activity">Activity</a>
                                             </th>
-                                            
-                                            <th style="width: 24px;"
+
+                                            <th class="text-center" style="width: 24px;"
                                                 class="pl-0" colspan="2">
-                                            Action
-                                            
+                                                Action
+
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody class="list"
                                         id="search">
-                                        <?php while($row1 = $list->fetch_object()): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $row1->id; ?>
+                                        <?php while ($row1 = $list->fetch_object()): ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $row1->id; ?>
 
-                                            </td>
-                                            <td>
+                                                </td>
+                                                <td>
 
-                                                <div class="d-flex flex-column">
-                                                    <?php echo $row1->name; ?>
-                                                </div>
+                                                    <div class="d-flex flex-column">
+                                                        <?php echo $row1->name; ?>
+                                                    </div>
 
-                                            </td>
+                                                </td>
 
-                                            <td>
-                                                <?php echo $row1->description; ?>
+                                                <td>
+                                                    <?php echo $row1->description; ?>
 
-                                            </td>
+                                                </td>
 
-                                            <td><?php echo $row1->created_at; ?></td>
-                                            
-                                            <td class="text-right pl-0">
-                                                <a href="category_edit.php?id=<?php echo $row1->id; ?>">Edit</a>
-                                            </td>
-                                        </tr>
+                                                <td><?php echo $row1->created_at; ?></td>
+
+                                                <td class="text-center">
+                                                    <a href="category_edit.php?id=<?php echo $row1->id; ?>"><i class="fas fa-edit"></i></a>
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    <a onclick="return confirm('Are you sure to delete')" href="category_delete.php?id=<?php echo $row1->id; ?>"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
                                         <?php endwhile; ?>
 
 
-                                        <
 
-                                            </tbody>
+
+                                    </tbody>
                                 </table>
                             </div>
 
@@ -543,7 +542,7 @@
 
                     <!-- Sidebar Content -->
 
-                   <?php include_once("includes/sidebar.php"); ?>
+                    <?php include_once("includes/sidebar.php"); ?>
                     <!-- // END Sidebar Content -->
 
                 </div>

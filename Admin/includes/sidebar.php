@@ -180,7 +180,7 @@
                             </li>
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button"
-                                   href="instructor-courses.html">
+                                   href="instructor-courses.php">
                                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
                                     <span class="sidebar-menu-text">Manage Courses</span>
                                 </a>

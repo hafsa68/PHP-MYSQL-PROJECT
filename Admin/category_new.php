@@ -412,15 +412,14 @@
 
             <div class="container page__container page-section">
                 <?php
-                $id = $_REQUEST['id'];
                 if (isset($_POST['submit'])) {
                     $name = ($_POST['name']);
                     $description = ($_POST['description']);
-                    $sql = "INSERT INTO categories (name, description, created_at) 
-        VALUES ('$name','$description', NOW())";
-
-                    $db->query($sql);
+                    $sql = "INSERT INTO categories (name, description, created_at) VALUES ('$name','$description', NOW())";
+                     $db->query($sql);
+                     
                     if ($db->affected_rows) {
+                        
                         echo '<div class="alert alert-soft-success d-flex"
             role="alert">
             <i class="material-icons mr-12pt">check_circle</i>
@@ -428,6 +427,7 @@
             Successfully Inserted
             
             </div> </div>';
+            
                     } else {
                         echo ('Error');
                     }
@@ -464,7 +464,11 @@
                                 <button type="submit" name="submit" class="btn btn-primary mt-3">
                                     Add New Category
                                 </button>
-
+                                     &nbsp;
+                            &nbsp;
+                            &nbsp;
+                            &nbsp;
+                               <a href="category_manage.php" class="btn btn-primary mt-3">CHECK</a>
                             </form>
                             <!-- Form End -->
 
