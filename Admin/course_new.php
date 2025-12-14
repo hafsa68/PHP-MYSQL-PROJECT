@@ -413,13 +413,13 @@
             <div class="container page__container page-section">
 
                 <?php
-                // Step 1: Database connection include
+                
                 include_once("includes/db_config.php");
 
-                // Step 2: Form submit check
+                
                 if (isset($_POST['submit'])) {
 
-                    // Step 3: Collect form data
+                    
                     $title = mysqli_real_escape_string($db, $_POST['title']);
                     $description = mysqli_real_escape_string($db, $_POST['description']);
                     $short_description = mysqli_real_escape_string($db, $_POST['short_description']);
@@ -430,36 +430,33 @@
                     $level = $_POST['level'];
                     $duration = intval($_POST['duration']);
 
-                    // Step 4: Handle checkbox values
+                    
                     $is_published = isset($_POST['is_published']) ? 1 : 0;
                     $is_featured = isset($_POST['is_featured']) ? 1 : 0;
 
-                    // Step 4a: Add is_free variable (since you removed free course feature)
-                    // সব কোর্স paid, তাই সবসময় 0
-
-                    // Step 5: Handle file upload
+                    
                     $thumbnail = '';
                     if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
                         $file_name = time() . '_' . $_FILES['thumbnail']['name'];
-                        $upload_path = "../public/uploads/" . $file_name;
+                        $upload_path = "../uploads/" . $file_name;
 
-                        // Create directory if not exists
-                        if (!file_exists("../public/uploads/")) {
-                            mkdir("../public/uploads/", 0777, true);
+                        
+                        if (!file_exists("../uploads/")) {
+                            mkdir("../uploads/", 0777, true);
                         }
 
-                        // Move uploaded file
+                        
                         if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_path)) {
                             $thumbnail = $file_name;
                         }
                     }
 
-                    // Step 6: Auto-generate slug from title
+                    
                     $slug = strtolower($title);
                     $slug = str_replace(' ', '-', $slug);
                     $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
 
-                    // Step 7: Insert into database (FIXED VERSION)
+                    
                     $sql = "INSERT INTO courses (
         title, slug, description, short_description, 
         price, discounted_price, category_id, teacher_id,
@@ -474,7 +471,7 @@
         NOW(), NOW()
     )";
                     $db->query($sql);
-                    // Step 8: Execute query and show result
+                    
                     if ($db->affected_rows) {
                         echo '<div class="alert alert-success" role="alert">
                      Course added successfully!
@@ -491,13 +488,10 @@
                     <div class="col-lg-8 d-flex align-items-center">
                         <div class="flex" style="max-width: 100%">
 
-                            <!-- Show Message -->
-
-
-                            <!-- Form Start -->
+                            
                             <form action="" method="POST" enctype="multipart/form-data">
 
-                                <!-- Title -->
+                                
                                 <div class="form-group mt-3">
                                     <label class="form-label" for="title">Course Title:</label>
                                     <input type="text"
@@ -510,7 +504,7 @@
                                     <small class="form-text text-muted">Maximum 100 characters</small>
                                 </div>
 
-                                <!-- Description -->
+                                
                                 <div class="form-group mt-3">
                                     <label class="form-label" for="description">Description:</label>
                                     <textarea class="form-control"
@@ -521,7 +515,7 @@
                                         required></textarea>
                                 </div>
 
-                                <!-- Short Description -->
+                                
                                 <div class="form-group mt-3">
                                     <label class="form-label" for="short_description">Short Description:</label>
                                     <textarea class="form-control"
@@ -533,7 +527,7 @@
                                     <small class="form-text text-muted">Maximum 255 characters</small>
                                 </div>
 
-                                <!-- Pricing Section -->
+                                
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mt-3">
@@ -568,7 +562,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Category Selection -->
+                                
                                 <div class="form-group mt-3">
                                     <label class="form-label" for="category_id">Category:</label>
                                     <select class="form-control"
@@ -577,7 +571,6 @@
                                         required>
                                         <option value="">Select Category</option>
                                         <?php
-                                        // Database থেকে ক্যাটেগরি লোড করুন
                                         $categories_query = mysqli_query($db, "SELECT * FROM categories");
                                         while ($cat = mysqli_fetch_assoc($categories_query)) {
                                             echo '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['name']) . '</option>';
@@ -586,7 +579,6 @@
                                     </select>
                                 </div>
 
-                                <!-- Teacher Selection (FIXED QUERY) -->
                                 <div class="form-group mt-3">
                                     <label class="form-label" for="teacher_id">Instructor:</label>
                                     <select class="form-control"
@@ -595,12 +587,10 @@
                                         required>
                                         <option value="">Select Instructor</option>
                                         <?php
-                                        // ✅ FIXED: role = 2 (no quotes, proper closing)
                                         $teachers_query = mysqli_query($db, "SELECT id, full_name, email FROM users WHERE role = 2");
 
                                         if ($teachers_query && mysqli_num_rows($teachers_query) > 0) {
                                             while ($teacher = mysqli_fetch_assoc($teachers_query)) {
-                                                // ✅ CORRECT: value should be teacher's ID
                                                 $display_name = !empty($teacher['full_name']) ?
                                                     $teacher['full_name'] :
                                                     $teacher['email'];
@@ -617,7 +607,6 @@
                                     </select>
                                 </div>
 
-                                <!-- Thumbnail -->
                                 <div class="form-group mt-3">
                                     <label class="form-label" for="thumbnail">Thumbnail Image:</label>
                                     <input type="file"
@@ -628,7 +617,6 @@
                                     <small class="form-text text-muted">Recommended: 430x168 pixels (JPG, PNG)</small>
                                 </div>
 
-                                <!-- Course Details -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mt-3">
@@ -661,7 +649,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Checkboxes -->
                                 <div class="row mt-3">
                                     <div class="col-md-4">
                                         <div class="form-check">
@@ -690,7 +677,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Submit Buttons -->
                                 <div class="mt-4">
                                     <button type="submit" name="submit" class="btn btn-primary">
                                         Add New Course
@@ -701,7 +687,6 @@
                                     </a>
                                 </div>
                             </form>
-                            <!-- Form End -->
                         </div>
                     </div>
                 </div>

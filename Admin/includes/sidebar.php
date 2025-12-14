@@ -173,7 +173,7 @@
 
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button"
-                                   href="instructor-dashboard.html">
+                                   href="instructor-dashboard.php">
                                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">school</span>
                                     <span class="sidebar-menu-text">Instructor Dashboard</span>
                                 </a>
