@@ -414,10 +414,22 @@
 
                 <?php
 
-                
+                if (!isset($_GET['id'])) {
+                    die("Course ID missing");
+                }
+                $id = intval($_GET['id']);
 
+                // FETCH COURSE
+                $result = "SELECT * FROM courses WHERE id = $id";
+                $query = $db->query($result);
 
-                if (isset($_POST['submit'])) {
+                if ($query->num_rows == 0) {
+                    die("Course not found");
+                }
+
+                $course = $query->fetch_assoc();
+
+                if (isset($_POST['update'])) {
 
 
                     $title = mysqli_real_escape_string($db, $_POST['title']);
@@ -456,19 +468,22 @@
                     $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
                     $slug .= '-' . time();
 
-                    $sql = "INSERT INTO courses (
-        title, slug, description, short_description, 
-        price, discounted_price, category_id, teacher_id,
-        thumbnail, level, duration,
-        is_published,is_featured,
-        created_at, updated_at
-    ) VALUES (
-        '$title', '$slug', '$description', '$short_description',
-        '$price', '$discounted_price', '$category_id', '$teacher_id',
-        '$thumbnail', '$level', '$duration',
-        '$is_published','$is_featured',
-        NOW(), NOW()
-    )";
+                    $sql = "UPDATE courses SET
+title='$title',
+slug='$slug',
+description='$description',
+short_description='$short_description',
+price='$price',
+discounted_price='$discounted_price',
+category_id='$category_id',
+teacher_id='$teacher_id',
+thumbnail='$thumbnail',
+level='$level',
+duration='$duration',
+is_published='$is_published',
+is_featured='$is_featured',
+updated_at=NOW()
+WHERE id=$id";
                     $db->query($sql);
 
                     if ($db->affected_rows) {
@@ -499,7 +514,7 @@
                                         name="title"
                                         placeholder="Enter course title"
                                         maxlength="100"
-                                        required>
+                                        required value="<?php echo $course['title']; ?>">
                                     <small class="form-text text-muted">Maximum 100 characters</small>
                                 </div>
 
@@ -511,7 +526,7 @@
                                         name="description"
                                         placeholder="Write detailed course description..."
                                         rows="4"
-                                        required></textarea>
+                                        required><?php echo $course['description']; ?></textarea>
                                 </div>
 
 
@@ -522,7 +537,7 @@
                                         name="short_description"
                                         placeholder="Brief summary (for course cards)"
                                         rows="2"
-                                        maxlength="255"></textarea>
+                                        maxlength="255"><?php echo $course['short_description']; ?></textarea>
                                     <small class="form-text text-muted">Maximum 255 characters</small>
                                 </div>
 
@@ -539,8 +554,8 @@
                                                 step="0.01"
                                                 min="0"
                                                 max="99999.99"
-                                                value="0.00"
-                                                required>
+
+                                                required value="<?php echo $course['price']; ?>">
                                         </div>
                                     </div>
 
@@ -555,67 +570,50 @@
                                                 step="0.01"
                                                 min="0"
                                                 max="99999.99"
-                                                value="0.00">
+                                                value="<?php echo $course['discounted_price']; ?>">
                                             <small class="form-text text-muted">Special offer price (optional)</small>
                                         </div>
                                     </div>
                                 </div>
 
 
-                                <div class="form-group mt-3">
-                                    <label class="form-label" for="category_id">Category:</label>
-                                    <select class="form-control"
-                                        id="category_id"
-                                        name="category_id"
-                                        required>
-                                        <option value="">Select Category</option>
+                                <div class="form-group mt-2">
+                                    <label>Category</label>
+                                    <select name="category_id" class="form-control" required>
                                         <?php
-                                        $categories_query = mysqli_query($db, "SELECT * FROM categories");
-                                        while ($cat = mysqli_fetch_assoc($categories_query)) {
-                                            echo '<option value="' . $cat['id'] . '">' . htmlspecialchars($cat['name']) . '</option>';
+                                        $cats = mysqli_query($db, "SELECT * FROM categories");
+                                        while ($cat = mysqli_fetch_assoc($cats)) {
+                                            echo "<option value='{$cat['id']}'>{$cat['name']}</option>";
                                         }
                                         ?>
                                     </select>
                                 </div>
 
-                                <div class="form-group mt-3">
-                                    <label class="form-label" for="teacher_id">Instructor:</label>
-                                    <select class="form-control"
-                                        id="teacher_id"
-                                        name="teacher_id"
-                                        required>
-                                        <option value="">Select Instructor</option>
+                                <div class="form-group">
+                                    <label>Instructor</label>
+                                    <select name="teacher_id" class="form-control" required>
                                         <?php
-                                        $teachers_query = mysqli_query($db, "SELECT id, full_name, email FROM users WHERE role = 2");
-
-                                        if ($teachers_query && mysqli_num_rows($teachers_query) > 0) {
-                                            while ($teacher = mysqli_fetch_assoc($teachers_query)) {
-                                                $display_name = !empty($teacher['full_name']) ?
-                                                    $teacher['full_name'] :
-                                                    $teacher['email'];
-
-                                                echo '<option value="' . $teacher['id'] . '">' .
-                                                    htmlspecialchars($display_name) .
-                                                    '</option>';
-                                            }
-                                        } else {
-                                            echo '<option value="">No teachers found</option>';
+                                        $teachers = mysqli_query($db, "SELECT id, full_name, email FROM users WHERE role=2");
+                                        while ($t = mysqli_fetch_assoc($teachers)) {
+                                            $name = $t['full_name'] ?: $t['email'];
+                                            echo "<option value='{$t['id']}'>{$name}</option>";
                                         }
                                         ?>
-                                        
                                     </select>
                                 </div>
 
+
                                 <div class="form-group mt-3">
-                                    <label class="form-label" for="thumbnail">Thumbnail Image:</label>
-                                    <input type="file"
-                                        class="form-control"
-                                        id="thumbnail"
-                                        name="thumbnail"
-                                        accept="image/*">
+                                    <label>Thumbnail Image:</label>
+                                    <input type="file" class="form-control" name="thumbnail" accept="image/*" id="thumbnail">
                                     <small class="form-text text-muted">Recommended: 430x168 pixels (JPG, PNG)</small>
                                 </div>
 
+                                <!-- Thumbnail Preview -->
+                                <div style="margin-top:10px;">
+                                    <img id="preview" src="<?php echo (!empty($course['thumbnail'])) ? '../uploads/' . $course['thumbnail'] : ''; ?>"
+                                        alt="Thumbnail" style="max-width:430px; height:auto; <?php echo empty($course['thumbnail']) ? 'display:none;' : ''; ?>">
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mt-3">
@@ -624,9 +622,9 @@
                                                 id="level"
                                                 name="level"
                                                 required>
-                                                <option value="beginner">Beginner</option>
-                                                <option value="intermediate">Intermediate</option>
-                                                <option value="advanced">Advanced</option>
+                                                <option value="beginner" <?= $course['level'] == 'beginner' ? 'selected' : '' ?>>Beginner</option>
+                                                <option value="intermediate" <?= $course['level'] == 'beginner' ? 'selected' : '' ?>>Intermediate</option>
+                                                <option value="advanced" <?= $course['level'] == 'beginner' ? 'selected' : '' ?>>Advanced</option>
                                             </select>
                                         </div>
                                     </div>
@@ -641,7 +639,7 @@
                                                 placeholder="e.g., 180"
                                                 min="0"
                                                 max="9999"
-                                                value="0"
+                                                value="<?= $course['duration'] ?>"
                                                 required>
                                             <small class="form-text text-muted">Total course duration in minutes</small>
                                         </div>
@@ -655,7 +653,7 @@
                                                 type="checkbox"
                                                 id="is_published"
                                                 name="is_published"
-                                                value="1">
+                                                value="1" <?php $course['is_published'] ? 'checked' : '' ?>>
                                             <label class="form-check-label" for="is_published">
                                                 Publish Course
                                             </label>
@@ -668,7 +666,7 @@
                                                 type="checkbox"
                                                 id="is_featured"
                                                 name="is_featured"
-                                                value="1">
+                                                value="1" <?php $course['is_featured'] ? 'checked' : '' ?>>
                                             <label class="form-check-label" for="is_featured">
                                                 Featured Course
                                             </label>
@@ -677,8 +675,8 @@
                                 </div>
 
                                 <div class="mt-4">
-                                    <button type="submit" name="submit" class="btn btn-primary">
-                                        Add New Course
+                                    <button type="submit" name="update" class="btn btn-primary">
+                                        Update Course
                                     </button>
                                     &nbsp;&nbsp;
                                     <a href="instructor-courses.php" class="btn btn-secondary">

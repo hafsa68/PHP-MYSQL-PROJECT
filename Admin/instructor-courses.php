@@ -397,10 +397,10 @@ include_once("includes/db_config.php");
 
 
                     ?>
-                         <?php while ($row = $form->fetch_object()): ?>
-                    <div class="col-sm-6 col-md-4 col-xl-3">
+                    <?php while ($row = $form->fetch_object()): ?>
+                        <div class="col-sm-6 col-md-4 col-xl-3">
 
-                       
+
                             <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary js-overlay mdk-reveal js-mdk-reveal "
                                 data-overlay-onload-show
                                 data-popover-onload-show
@@ -408,7 +408,7 @@ include_once("includes/db_config.php");
                                 data-partial-height="44"
                                 data-toggle="popover"
                                 data-trigger="click">
-                                <a href="instructor-edit-course.html<?php echo $row->title; ?>" class="js-image"
+                                <a href="instructor-edit-course.php<?php echo $row->title; ?>" class="js-image"
                                     data-position="" style="
                                         height: 180px;
                                         display: flex;
@@ -436,12 +436,12 @@ include_once("includes/db_config.php");
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex">
-                                                <a class="card-title mb-4pt" href="instructor-edit-course.html?id=<?php echo $row->id; ?>">
+                                                <a class="card-title mb-4pt" href="instructor-edit-course.php?id=<?php echo $row->id; ?>">
                                                     <?php echo $row->title; ?>
                                                 </a>
                                             </div>
 
-                                            <a href="instructor-edit-course.html" class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
+                                            <a href="instructor-edit-course.php" class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
                                         </div>
                                         <div class="d-flex">
                                             <div class="rating flex">
@@ -458,7 +458,10 @@ include_once("includes/db_config.php");
                             </div>
 
                             <div class="popoverContainer d-none">
+
                                 <div class="card-body">
+                                
+
                                     <div class="media">
                                         <div class="media-left mr-12pt">
                                             <img src="../uploads/<?php echo $row->thumbnail; ?>" alt="course"
@@ -501,16 +504,21 @@ include_once("includes/db_config.php");
                                             </div>
                                         </div>
                                         <div class="col text-right">
-                                            <a href="instructor-edit-course.html?id=<?php echo $row->id; ?>" class="btn btn-primary">Edit course</a>
+                                            <a href="instructor-edit-course.php?id=<?php echo $row->id; ?>" class="btn btn-primary">Edit course</a>
+                                        </div>
+                                        <div class="col text-left">
+                                            <a href="course_delete.php?id=<?= $row->id ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this course?')">Delete course</a>
+
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        
 
-                    </div>
-<?php endwhile; ?>
-                    
+
+                        </div>
+                    <?php endwhile; ?>
+
                 </div>
 
                 <div class="mb-32pt">
@@ -588,7 +596,7 @@ include_once("includes/db_config.php");
                             data-partial-height="44"
                             data-toggle="popover"
                             data-trigger="click">
-                            <a href="instructor-edit-course.html"
+                            <a href="instructor-edit-course.php"
                                 class="js-image"
                                 data-position="">
                                 <img src="../public/images/paths/sketch_430x168.png"
@@ -605,9 +613,9 @@ include_once("includes/db_config.php");
                                     <div class="d-flex">
                                         <div class="flex">
                                             <a class="card-title mb-4pt"
-                                                href="instructor-edit-course.html">Learn Sketch</a>
+                                                href="instructor-edit-course.php">Learn Sketch</a>
                                         </div>
-                                        <a href="instructor-edit-course.html"
+                                        <a href="instructor-edit-course.php"
                                             class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
                                     </div>
                                     <div class="d-flex">
@@ -682,7 +690,7 @@ include_once("includes/db_config.php");
                                     </div>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="instructor-edit-course.html"
+                                    <a href="instructor-edit-course.php"
                                         class="btn btn-primary">Edit course</a>
                                 </div>
                             </div>
@@ -697,7 +705,7 @@ include_once("includes/db_config.php");
                             data-partial-height="44"
                             data-toggle="popover"
                             data-trigger="click">
-                            <a href="instructor-edit-course.html"
+                            <a href="instructor-edit-course.php"
                                 class="js-image"
                                 data-position="">
                                 <img src="../public/images/paths/flinto_430x168.png"
@@ -714,9 +722,9 @@ include_once("includes/db_config.php");
                                     <div class="d-flex">
                                         <div class="flex">
                                             <a class="card-title mb-4pt"
-                                                href="instructor-edit-course.html">Learn Flinto</a>
+                                                href="instructor-edit-course.php">Learn Flinto</a>
                                         </div>
-                                        <a href="instructor-edit-course.html"
+                                        <a href="instructor-edit-course.php"
                                             class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
                                     </div>
                                     <div class="d-flex">
@@ -791,7 +799,7 @@ include_once("includes/db_config.php");
                                     </div>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="instructor-edit-course.html"
+                                    <a href="instructor-edit-course.php"
                                         class="btn btn-primary">Edit course</a>
                                 </div>
                             </div>
@@ -806,7 +814,7 @@ include_once("includes/db_config.php");
                             data-partial-height="44"
                             data-toggle="popover"
                             data-trigger="click">
-                            <a href="instructor-edit-course.html"
+                            <a href="instructor-edit-course.php"
                                 class="js-image"
                                 data-position="">
                                 <img src="../public/images/paths/photoshop_430x168.png"
@@ -823,9 +831,9 @@ include_once("includes/db_config.php");
                                     <div class="d-flex">
                                         <div class="flex">
                                             <a class="card-title mb-4pt"
-                                                href="instructor-edit-course.html">Learn Photoshop</a>
+                                                href="instructor-edit-course.php">Learn Photoshop</a>
                                         </div>
-                                        <a href="instructor-edit-course.html"
+                                        <a href="instructor-edit-course.php"
                                             class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
                                     </div>
                                     <div class="d-flex">
@@ -900,7 +908,7 @@ include_once("includes/db_config.php");
                                     </div>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="instructor-edit-course.html"
+                                    <a href="instructor-edit-course.php"
                                         class="btn btn-primary">Edit course</a>
                                 </div>
                             </div>
@@ -915,7 +923,7 @@ include_once("includes/db_config.php");
                             data-partial-height="44"
                             data-toggle="popover"
                             data-trigger="click">
-                            <a href="instructor-edit-course.html"
+                            <a href="instructor-edit-course.php"
                                 class="js-image"
                                 data-position="">
                                 <img src="../public/images/paths/mailchimp_430x168.png"
@@ -932,9 +940,9 @@ include_once("includes/db_config.php");
                                     <div class="d-flex">
                                         <div class="flex">
                                             <a class="card-title mb-4pt"
-                                                href="instructor-edit-course.html">Newsletter Design</a>
+                                                href="instructor-edit-course.php">Newsletter Design</a>
                                         </div>
-                                        <a href="instructor-edit-course.html"
+                                        <a href="instructor-edit-course.php"
                                             class="ml-4pt material-icons text-20 card-course__icon-favorite">edit</a>
                                     </div>
                                     <div class="d-flex">
@@ -1009,7 +1017,7 @@ include_once("includes/db_config.php");
                                     </div>
                                 </div>
                                 <div class="col text-right">
-                                    <a href="instructor-edit-course.html"
+                                    <a href="instructor-edit-course.php"
                                         class="btn btn-primary">Edit course</a>
                                 </div>
                             </div>
