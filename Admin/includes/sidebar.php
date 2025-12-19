@@ -76,7 +76,7 @@
                             </li>
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button"
-                                   href="student-dashboard.html">
+                                   href="student-dashboard.php">
                                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_box</span>
                                     <span class="sidebar-menu-text">Student Dashboard</span>
                                 </a>
@@ -118,7 +118,7 @@
                             </li>
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button"
-                                   href="student-take-course.html">
+                                   href="student-take-course.php">
                                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">class</span>
                                     <span class="sidebar-menu-text">Take Course</span>
                                     <span class="sidebar-menu-badge badge badge-accent badge-notifications ml-auto">PRO</span>
@@ -187,9 +187,23 @@
                             </li>
                             <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button"
-                                   href="instructor-quizzes.html">
+                                   href="manage_quize.php">
                                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
                                     <span class="sidebar-menu-text">Manage Quizzes</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="assignment-add.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
+                                    <span class="sidebar-menu-text">Manage Assignment</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="add_announcement.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
+                                    <span class="sidebar-menu-text">Manage Announcements</span>
                                 </a>
                             </li>
                             <li class="sidebar-menu-item">

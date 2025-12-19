@@ -1,0 +1,873 @@
+<?php
+include_once("Admin/includes/db_config.php");
+session_start();
+
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: 0");
+if (!isset($_SESSION['email']) || $_SESSION['role'] != 2) {
+    header("Location:login.php");
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en"
+      dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible"
+              content="IE=edge">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Dashboard</title>
+
+        <!-- Prevent the demo from appearing in search engines -->
+        <meta name="robots"
+              content="noindex">
+
+        <link href="https://fonts.googleapis.com/css?family=Lato:400,700%7CRoboto:400,500%7CExo+2:600&display=swap"
+              rel="stylesheet">
+
+        <!-- Preloader -->
+        <link type="text/css"
+              href="public/vendor/spinkit.css"
+              rel="stylesheet">
+
+        <!-- Perfect Scrollbar -->
+        <link type="text/css"
+              href="public/vendor/perfect-scrollbar.css"
+              rel="stylesheet">
+
+        <!-- Material Design Icons -->
+        <link type="text/css"
+              href="public/css/material-icons.css"
+              rel="stylesheet">
+
+        <!-- Font Awesome Icons -->
+        <link type="text/css"
+              href="public/css/fontawesome.css"
+              rel="stylesheet">
+
+        <!-- Preloader -->
+        <link type="text/css"
+              href="public/css/preloader.css"
+              rel="stylesheet">
+
+        <!-- App CSS -->
+        <link type="text/css"
+              href="public/css/app.css"
+              rel="stylesheet">
+
+    </head>
+
+    <body class="layout-app ">
+
+        <div class="preloader">
+            <div class="sk-chase">
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+                <div class="sk-chase-dot"></div>
+            </div>
+
+            <!-- <div class="sk-bounce">
+    <div class="sk-bounce-dot"></div>
+    <div class="sk-bounce-dot"></div>
+  </div> -->
+
+            <!-- More spinner examples at https://github.com/tobiasahlin/SpinKit/blob/master/examples.html -->
+        </div>
+
+        <!-- Drawer Layout -->
+
+        <div class="mdk-drawer-layout js-mdk-drawer-layout"
+             data-push
+             data-responsive-width="992px">
+            <div class="mdk-drawer-layout__content page-content">
+
+                <!-- Header -->
+
+                <!-- Navbar -->
+
+                <div class="navbar navbar-expand pr-0 navbar-light border-bottom-2"
+                     id="default-navbar"
+                     data-primary>
+
+                    <!-- Navbar Toggler -->
+
+                    <button class="navbar-toggler w-auto mr-16pt d-block d-lg-none rounded-0"
+                            type="button"
+                            data-toggle="sidebar">
+                        <span class="material-icons">short_text</span>
+                    </button>
+
+                    <!-- // END Navbar Toggler -->
+
+                    <!-- Navbar Brand -->
+
+                    <a href="index.html"
+                       class="navbar-brand mr-16pt d-lg-none">
+
+                        <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
+
+                            <span class="avatar-title rounded bg-primary"><img src="public/images/illustration/student/128/white.svg"
+                                     alt="logo"
+                                     class="img-fluid" /></span>
+
+                        </span>
+
+                        <span class="d-none d-lg-block">Luma</span>
+                    </a>
+
+                    <!-- // END Navbar Brand -->
+
+                    <span class="d-none d-md-flex align-items-center mr-16pt">
+
+                        <span class="avatar avatar-sm mr-12pt">
+
+                            <span class="avatar-title rounded navbar-avatar"><i class="material-icons">trending_up</i></span>
+
+                        </span>
+
+                        <small class="flex d-flex flex-column">
+                            <strong class="navbar-text-100">Earnings</strong>
+                            <span class="navbar-text-50">&dollar;12.3k</span>
+                        </small>
+                    </span>
+                    <span class="d-none d-md-flex align-items-center mr-16pt">
+
+                        <span class="avatar avatar-sm mr-12pt">
+
+                            <span class="avatar-title rounded navbar-avatar"><i class="material-icons">receipt</i></span>
+
+                        </span>
+
+                        <small class="flex d-flex flex-column">
+                            <strong class="navbar-text-100">Sales</strong>
+                            <span class="navbar-text-50">264</span>
+                        </small>
+                    </span>
+
+                    <div class="flex"></div>
+
+                    <!-- Switch Layout -->
+
+                    <a href="Compact_App_Layout/instructor-dashboard.html"
+                       class="navbar-toggler navbar-toggler-custom align-items-center justify-content-center d-none d-lg-flex"
+                       data-toggle="tooltip"
+                       data-title="Switch to Compact Layout"
+                       data-placement="bottom"
+                       data-boundary="window">
+                        <span class="material-icons">swap_horiz</span>
+                    </a>
+
+                    <!-- // END Switch Layout -->
+
+                    <!-- Navbar Menu -->
+
+                    <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
+
+                        <!-- Notifications dropdown -->
+                        <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full"
+                             data-toggle="tooltip"
+                             data-title="Messages"
+                             data-placement="bottom"
+                             data-boundary="window">
+                            <button class="nav-link btn-flush dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    data-caret="false">
+                                <i class="material-icons icon-24pt">mail_outline</i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div data-perfect-scrollbar
+                                     class="position-relative">
+                                    <div class="dropdown-header"><strong>Messages</strong></div>
+                                    <div class="list-group list-group-flush mb-0">
+
+                                        <a href="javascript:void(0);"
+                                           class="list-group-item list-group-item-action unread">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <small class="text-black-50">5 minutes ago</small>
+
+                                                <span class="ml-auto unread-indicator bg-accent"></span>
+
+                                            </span>
+                                            <span class="d-flex">
+                                                <span class="avatar avatar-xs mr-2">
+                                                    <img src="public/images/people/110/woman-5.jpg"
+                                                         alt="people"
+                                                         class="avatar-img rounded-circle">
+                                                </span>
+                                                <span class="flex d-flex flex-column">
+                                                    <strong class="text-black-100">Michelle</strong>
+                                                    <span class="text-black-70">Clients loved the new design.</span>
+                                                </span>
+                                            </span>
+                                        </a>
+
+                                        <a href="javascript:void(0);"
+                                           class="list-group-item list-group-item-action">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <small class="text-black-50">5 minutes ago</small>
+
+                                            </span>
+                                            <span class="d-flex">
+                                                <span class="avatar avatar-xs mr-2">
+                                                    <img src="public/images/people/110/woman-5.jpg"
+                                                         alt="people"
+                                                         class="avatar-img rounded-circle">
+                                                </span>
+                                                <span class="flex d-flex flex-column">
+                                                    <strong class="text-black-100">Michelle</strong>
+                                                    <span class="text-black-70">🔥 Superb job..</span>
+                                                </span>
+                                            </span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // END Notifications dropdown -->
+
+                        <!-- Notifications dropdown -->
+                        <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
+                             data-toggle="tooltip"
+                             data-title="Notifications"
+                             data-placement="bottom"
+                             data-boundary="window">
+                            <button class="nav-link btn-flush dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    data-caret="false">
+                                <i class="material-icons">notifications_none</i>
+                                <span class="badge badge-notifications badge-accent">2</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div data-perfect-scrollbar
+                                     class="position-relative">
+                                    <div class="dropdown-header"><strong>System notifications</strong></div>
+                                    <div class="list-group list-group-flush mb-0">
+
+                                        <a href="javascript:void(0);"
+                                           class="list-group-item list-group-item-action unread">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <small class="text-black-50">3 minutes ago</small>
+
+                                                <span class="ml-auto unread-indicator bg-accent"></span>
+
+                                            </span>
+                                            <span class="d-flex">
+                                                <span class="avatar avatar-xs mr-2">
+                                                    <span class="avatar-title rounded-circle bg-light">
+                                                        <i class="material-icons font-size-16pt text-accent">account_circle</i>
+                                                    </span>
+                                                </span>
+                                                <span class="flex d-flex flex-column">
+
+                                                    <span class="text-black-70">Your profile information has not been synced correctly.</span>
+                                                </span>
+                                            </span>
+                                        </a>
+
+                                        <a href="javascript:void(0);"
+                                           class="list-group-item list-group-item-action">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <small class="text-black-50">5 hours ago</small>
+
+                                            </span>
+                                            <span class="d-flex">
+                                                <span class="avatar avatar-xs mr-2">
+                                                    <span class="avatar-title rounded-circle bg-light">
+                                                        <i class="material-icons font-size-16pt text-primary">group_add</i>
+                                                    </span>
+                                                </span>
+                                                <span class="flex d-flex flex-column">
+                                                    <strong class="text-black-100">Adrian. D</strong>
+                                                    <span class="text-black-70">Wants to join your private group.</span>
+                                                </span>
+                                            </span>
+                                        </a>
+
+                                        <a href="javascript:void(0);"
+                                           class="list-group-item list-group-item-action">
+                                            <span class="d-flex align-items-center mb-1">
+                                                <small class="text-black-50">1 day ago</small>
+
+                                            </span>
+                                            <span class="d-flex">
+                                                <span class="avatar avatar-xs mr-2">
+                                                    <span class="avatar-title rounded-circle bg-light">
+                                                        <i class="material-icons font-size-16pt text-warning">storage</i>
+                                                    </span>
+                                                </span>
+                                                <span class="flex d-flex flex-column">
+
+                                                    <span class="text-black-70">Your deploy was successful.</span>
+                                                </span>
+                                            </span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // END Notifications dropdown -->
+
+                        <div class="nav-item dropdown">
+                            <a href="#"
+                               class="nav-link d-flex align-items-center dropdown-toggle"
+                               data-toggle="dropdown"
+                               data-caret="false">
+
+                                <span class="avatar avatar-sm mr-8pt2">
+
+                                    <span class="avatar-title rounded-circle bg-primary"><i class="material-icons">account_box</i></span>
+
+                                </span>
+
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <div class="dropdown-header"><strong>Account</strong></div>
+                                <a class="dropdown-item"
+                                   href="edit-account.html">Edit Account</a>
+                                <a class="dropdown-item"
+                                   href="billing.html">Billing</a>
+                                <a class="dropdown-item"
+                                   href="billing-history.html">Payments</a>
+                                <a class="dropdown-item"
+                                   href="logout.php">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- // END Navbar Menu -->
+
+                </div>
+
+                <!-- // END Navbar -->
+
+                <!-- // END Header -->
+
+                <div class="pt-32pt">
+                    <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+                        <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                            <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                                <h2 class="mb-0">Dashboard</h2>
+
+                                <ol class="breadcrumb p-0 m-0">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+
+                                    <li class="breadcrumb-item active">
+
+                                        Dashboard
+
+                                    </li>
+
+                                </ol>
+
+                            </div>
+                        </div>
+
+                        <div class="row"
+                             role="tablist">
+                            <div class="col-auto">
+                                <a href="instructor-earnings.html"
+                                   class="btn btn-outline-secondary">Earnings</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- BEFORE Page Content -->
+
+                <!-- // END BEFORE Page Content -->
+
+                <!-- Page Content -->
+
+                <div class="page-section border-bottom-2">
+                    <div class="container page__container">
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
+                                    <div class="card-body">
+                                        <h4 class="h2 mb-0">&dollar;1,569.00</h4>
+                                        <div>Earnings this month</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card text-center mb-lg-0">
+                                    <div class="card-body">
+                                        <h4 class="h2 mb-0">&dollar;3,917.80</h4>
+                                        <div>Account Balance</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card text-center mb-lg-0">
+                                    <div class="card-body">
+                                        <h4 class="h2 mb-0">&dollar;10,211.50</h4>
+                                        <div>Total Sales</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="container page__container page-section">
+
+                    <div class="page-separator">
+                        <div class="page-separator__text">Earnings</div>
+                    </div>
+                    <div class="card card-body mb-32pt">
+                        <div id="legend"
+                             class="chart-legend mt-0 mb-24pt justify-content-start"></div>
+                        <div class="chart"
+                             style="height: 320px;">
+                            <canvas id="earningsChart"
+                                    class="chart-canvas js-update-chart-bar"
+                                    data-chart-legend="#legend"
+                                    data-chart-line-background-color="gradient:primary,gray"
+                                    data-chart-prefix="$"
+                                    data-chart-suffix="k"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row mb-8pt">
+                        <div class="col-lg-6">
+
+                            <div class="page-separator">
+                                <div class="page-separator__text">Transactions</div>
+                            </div>
+                            <div class="card">
+                                <div data-toggle="lists"
+                                     data-lists-values='[
+      "js-lists-values-course", 
+      "js-lists-values-document",
+      "js-lists-values-amount",
+      "js-lists-values-date"
+    ]'
+                                     data-lists-sort-by="js-lists-values-date"
+                                     data-lists-sort-desc="true"
+                                     class="table-responsive">
+                                    <table class="table table-flush table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">
+                                                    <a href="javascript:void(0)"
+                                                       class="sort"
+                                                       data-sort="js-lists-values-course">Course</a>
+                                                    <a href="javascript:void(0)"
+                                                       class="sort"
+                                                       data-sort="js-lists-values-document">Document</a>
+                                                    <a href="javascript:void(0)"
+                                                       class="sort"
+                                                       data-sort="js-lists-values-amount">Amount</a>
+                                                    <a href="javascript:void(0)"
+                                                       class="sort"
+                                                       data-sort="js-lists-values-date">Date</a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="list">
+
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex flex-nowrap align-items-center">
+                                                        <a href="instructor-edit-course.html"
+                                                           class="avatar avatar-4by3 overlay overlay--primary mr-12pt">
+                                                            <img src="public/images/paths/angular_routing_200x168.png"
+                                                                 alt="course"
+                                                                 class="avatar-img rounded">
+                                                            <span class="overlay__content"></span>
+                                                        </a>
+                                                        <div class="flex">
+                                                            <a class="card-title js-lists-values-course"
+                                                               href="instructor-edit-course.html">Angular Routing In-Depth</a>
+                                                            <small class="text-muted mr-1">
+                                                                Invoice
+                                                                <a href="invoice.html"
+                                                                   style="color: inherit;"
+                                                                   class="js-lists-values-document">#8734</a> -
+                                                                &dollar;<span class="js-lists-values-amount">89</span> USD
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <small class="text-muted text-uppercase js-lists-values-date">12 Nov 2018</small>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex flex-nowrap align-items-center">
+                                                        <a href="instructor-edit-course.html"
+                                                           class="avatar avatar-4by3 overlay overlay--primary mr-12pt">
+                                                            <img src="public/images/paths/angular_testing_200x168.png"
+                                                                 alt="course"
+                                                                 class="avatar-img rounded">
+                                                            <span class="overlay__content"></span>
+                                                        </a>
+                                                        <div class="flex">
+                                                            <a class="card-title js-lists-values-course"
+                                                               href="instructor-edit-course.html">Angular Unit Testing</a>
+                                                            <small class="text-muted mr-1">
+                                                                Invoice
+                                                                <a href="invoice.html"
+                                                                   style="color: inherit;"
+                                                                   class="js-lists-values-document">#8735</a> -
+                                                                &dollar;<span class="js-lists-values-amount">89</span> USD
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <small class="text-muted text-uppercase js-lists-values-date">13 Nov 2018</small>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex flex-nowrap align-items-center">
+                                                        <a href="instructor-edit-course.html"
+                                                           class="avatar avatar-4by3 overlay overlay--primary mr-12pt">
+                                                            <img src="public/images/paths/typescript_200x168.png"
+                                                                 alt="course"
+                                                                 class="avatar-img rounded">
+                                                            <span class="overlay__content"></span>
+                                                        </a>
+                                                        <div class="flex">
+                                                            <a class="card-title js-lists-values-course"
+                                                               href="instructor-edit-course.html">Introduction to TypeScript</a>
+                                                            <small class="text-muted mr-1">
+                                                                Invoice
+                                                                <a href="invoice.html"
+                                                                   style="color: inherit;"
+                                                                   class="js-lists-values-document">#8736</a> -
+                                                                &dollar;<span class="js-lists-values-amount">89</span> USD
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <small class="text-muted text-uppercase js-lists-values-date">14 Nov 2018</small>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex flex-nowrap align-items-center">
+                                                        <a href="instructor-edit-course.html"
+                                                           class="avatar avatar-4by3 overlay overlay--primary mr-12pt">
+                                                            <img src="public/images/paths/angular_200x168.png"
+                                                                 alt="course"
+                                                                 class="avatar-img rounded">
+                                                            <span class="overlay__content"></span>
+                                                        </a>
+                                                        <div class="flex">
+                                                            <a class="card-title js-lists-values-course"
+                                                               href="instructor-edit-course.html">Learn Angular Fundamentals</a>
+                                                            <small class="text-muted mr-1">
+                                                                Invoice
+                                                                <a href="invoice.html"
+                                                                   style="color: inherit;"
+                                                                   class="js-lists-values-document">#8737</a> -
+                                                                &dollar;<span class="js-lists-values-amount">89</span> USD
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <small class="text-muted text-uppercase js-lists-values-date">15 Nov 2018</small>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+
+                            <div class="page-separator">
+                                <div class="page-separator__text">Comments</div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="media">
+                                        <div class="media-left mr-12pt">
+                                            <a href="#"
+                                               class="avatar avatar-sm">
+                                                <!-- <img src="public/images/people/110/guy-9.jpg" alt="Guy" class="avatar-img rounded-circle"> -->
+                                                <span class="avatar-title rounded-circle">LB</span>
+                                            </a>
+                                        </div>
+                                        <div class="media-body d-flex flex-column">
+                                            <div class="d-flex align-items-center">
+                                                <a href="profile.html"
+                                                   class="card-title">Laza Bogdan</a>
+                                                <small class="ml-auto text-muted">27 min ago</small><br>
+                                            </div>
+                                            <span class="text-muted">on <a href="instructor-edit-course.html"
+                                                   class="text-50"
+                                                   style="text-decoration: underline;">Data Visualization With Chart.js</a></span>
+                                            <p class="mt-1 mb-0 text-70">How can I load Charts on a page?</p>
+                                        </div>
+                                    </div>
+                                    <div class="media ml-sm-32pt mt-3 border rounded p-3 card mb-0 d-inline-flex measure-paragraph-max">
+                                        <div class="media-left mr-12pt">
+                                            <a href="#"
+                                               class="avatar avatar-sm">
+                                                <!-- <img src="public/images/people/110/guy-6.jpg" alt="Guy" class="avatar-img rounded-circle"> -->
+                                                <span class="avatar-title rounded-circle">FM</span>
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex align-items-center">
+                                                <a href="profile.html"
+                                                   class="card-title">FrontendMatter</a>
+                                                <small class="ml-auto text-muted">just now</small>
+                                            </div>
+                                            <p class="mt-1 mb-0 text-70">Hi Bogdan,<br> Thank you for purchasing our course! <br><br>Please have a look at the charts library documentation <a href="#"
+                                                   class="text-underline">here</a> and follow the instructions.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <form action="#"
+                                          id="message-reply">
+                                        <div class="input-group input-group-merge">
+                                            <input type="text"
+                                                   class="form-control form-control-appended"
+                                                   required=""
+                                                   placeholder="Quick Reply">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text pr-2">
+                                                    <button class="btn btn-flush"
+                                                            type="button"><i class="material-icons">tag_faces</i></button>
+                                                </div>
+                                                <div class="input-group-text pl-0">
+                                                    <div class="custom-file custom-file-naked d-flex"
+                                                         style="width: 24px; overflow: hidden;">
+                                                        <input type="file"
+                                                               class="custom-file-input"
+                                                               id="customFile">
+                                                        <label class="custom-file-label"
+                                                               style="color: inherit;"
+                                                               for="customFile">
+                                                            <i class="material-icons">attach_file</i>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="input-group-text pl-0">
+                                                    <button class="btn btn-flush"
+                                                            type="button"><i class="material-icons">send</i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- // END Page Content -->
+
+                <!-- Footer -->
+
+                <div class="bg-white border-top-2 mt-auto">
+                    <div class="container page__container page-section d-flex flex-column">
+                        <p class="text-70 brand mb-24pt">
+                            <img class="brand-icon"
+                                 src="public/images/logo/black-70@2x.png"
+                                 width="30"
+                                 alt="Luma"> Luma
+                        </p>
+                        <p class="measure-lead-max text-50 small mr-8pt">Luma is a beautifully crafted user interface for modern Education Platforms, including Courses & Tutorials, Video Lessons, Student and Teacher Dashboard, Curriculum Management, Earnings and Reporting, ERP, HR, CMS, Tasks, Projects, eCommerce and more.</p>
+                        <p class="mb-8pt d-flex">
+                            <a href=""
+                               class="text-70 text-underline mr-8pt small">Terms</a>
+                            <a href=""
+                               class="text-70 text-underline small">Privacy policy</a>
+                        </p>
+                        <p class="text-50 small mt-n1 mb-0">Copyright 2019 &copy; All rights reserved.</p>
+                    </div>
+                </div>
+
+                <!-- // END Footer -->
+
+            </div>
+
+            <!-- // END drawer-layout__content -->
+
+            <!-- Drawer -->
+
+            <div class="mdk-drawer js-mdk-drawer"
+                 id="default-drawer">
+                <div class="mdk-drawer__content">
+                    <div class="sidebar sidebar-dark-pickled-bluewood sidebar-left"
+                         data-perfect-scrollbar>
+
+                        <!-- Sidebar Content -->
+
+                        <div class="d-flex align-items-center navbar-height">
+                            <form action="index.html"
+                                  class="search-form search-form--black mx-16pt pr-0 pl-16pt">
+                                <input type="text"
+                                       class="form-control pl-0"
+                                       placeholder="Search">
+                                <button class="btn"
+                                        type="submit"><i class="material-icons">search</i></button>
+                            </form>
+                        </div>
+
+                        <a href="index.html"
+                           class="sidebar-brand ">
+                            <!-- <img class="sidebar-brand-icon" src="public/images/illustration/teacher/128/white.svg" alt="Luma"> -->
+
+                            <span class="avatar avatar-xl sidebar-brand-icon h-auto">
+
+                                <span class="avatar-title rounded bg-primary"><img src="public/images/illustration/teacher/128/white.svg"
+                                         class="img-fluid"
+                                         alt="logo" /></span>
+
+                            </span>
+
+                            <span>Luma</span>
+                        </a>
+
+                        <div class="sidebar-heading">Instructor</div>
+                        <ul class="sidebar-menu">
+
+                            <li class="sidebar-menu-item active">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-dashboard.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">school</span>
+                                    <span class="sidebar-menu-text">Instructor Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-courses.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                                    <span class="sidebar-menu-text">Manage Courses</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-quizzes.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
+                                    <span class="sidebar-menu-text">Manage Quizzes</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-earnings.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">trending_up</span>
+                                    <span class="sidebar-menu-text">Earnings</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-statement.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">receipt</span>
+                                    <span class="sidebar-menu-text">Statement</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-edit-course.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">post_add</span>
+                                    <span class="sidebar-menu-text">Edit Course</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="instructor-edit-quiz.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">format_shapes</span>
+                                    <span class="sidebar-menu-text">Edit Quiz</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                       
+                           
+                        
+
+                        
+                            
+                        </ul>
+
+                        <!-- // END Sidebar Content -->
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- // END Drawer -->
+
+        </div>
+
+        <!-- // END Drawer Layout -->
+
+        <!-- jQuery -->
+        <script src="public/vendor/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="public/vendor/popper.min.js"></script>
+        <script src="public/vendor/bootstrap.min.js"></script>
+
+        <!-- Perfect Scrollbar -->
+        <script src="public/vendor/perfect-scrollbar.min.js"></script>
+
+        <!-- DOM Factory -->
+        <script src="public/vendor/dom-factory.js"></script>
+
+        <!-- MDK -->
+        <script src="public/vendor/material-design-kit.js"></script>
+
+        <!-- App JS -->
+        <script src="public/js/app.js"></script>
+
+        <!-- Preloader -->
+        <script src="public/js/preloader.js"></script>
+
+        <!-- Global Settings -->
+        <script src="public/js/settings.js"></script>
+
+        <!-- Moment.js -->
+        <script src="public/vendor/moment.min.js"></script>
+        <script src="public/vendor/moment-range.js"></script>
+
+        <!-- Chart.js -->
+        <script src="public/vendor/Chart.min.js"></script>
+
+        <!-- UI Charts Page JS -->
+        <script src="public/js/chartjs-rounded-bar.js"></script>
+        <script src="public/js/chartjs.js"></script>
+
+        <!-- Chart.js Samples -->
+        <script src="public/js/page.instructor-dashboard.js"></script>
+
+        <!-- List.js -->
+        <script src="public/vendor/list.min.js"></script>
+        <script src="public/js/list.js"></script>
+
+    </body>
+
+</html>
