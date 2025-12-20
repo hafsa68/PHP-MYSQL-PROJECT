@@ -7,36 +7,34 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php?redirect=enroll&course_id=" . $_GET['course_id']);
-    exit();
-}
+// if (!isset($_SESSION['user_id'])) {
+//     header("Location: login.php?redirect=enroll&course_id=" . $_GET['course_id']);
+//     exit();
+// }
 
 // $user_id = $_SESSION['user_id'];
 // $course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : 0;
 
 // Debug: Print course_id
 
-
+$course_id = $_REQUEST['course_id'];
 // Get course details with error handling
-$course_sql = "SELECT * FROM courses WHERE id = ?";
-$course_stmt = $db->prepare($course_sql);
+$course_sql = "SELECT * FROM courses WHERE id = '$course_id'";
+$course_stmt = $db->query($course_sql);
 
 if (!$course_stmt) {
     die("Prepare failed: " . $db->error);
 }
 
-$course_stmt->bind_param("i", $course_id);
-$course_stmt->execute();
-$course_result = $course_stmt->get_result();
+//$course_result = $course_stmt->fetch_assoc();
 
 // Debug: Print number of rows
 
-if ($course_result->num_rows === 0) {
+if ($course_stmt->num_rows< 1) {
     die("Course not found. Course ID: " . $course_id . ". Check if course exists in database.");
 }
 
-$course = $course_result->fetch_object();
+$course = $course_stmt->fetch_object();
 
 
 // Check if already enrolled
