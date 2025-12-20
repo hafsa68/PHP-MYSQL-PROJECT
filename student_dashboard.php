@@ -145,7 +145,7 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] != 3) {
 
                     <!-- Switch Layout -->
 
-                    <a href="Compact_App_Layout/student-dashboard.html"
+                    <a href="Compact_App_Layout/student-dashboard.php"
                        class="navbar-toggler navbar-toggler-custom align-items-center justify-content-center d-none d-lg-flex"
                        data-toggle="tooltip"
                        data-title="Switch to Compact Layout"
@@ -1729,7 +1729,147 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] != 3) {
 
                         <!-- Sidebar Content -->
 
-                        <?php include_once("Admin/includes/sidebar.php"); ?>
+                                  <div class="d-flex align-items-center navbar-height">
+                            <form action="index.html"
+                                  class="search-form search-form--black mx-16pt pr-0 pl-16pt">
+                                <input type="text"
+                                       class="form-control pl-0"
+                                       placeholder="Search">
+                                <button class="btn"
+                                        type="submit"><i class="material-icons">search</i></button>
+                            </form>
+                        </div>
+
+                        <a href="index.html"
+                           class="sidebar-brand ">
+                            <!-- <img class="sidebar-brand-icon" src="../public/images/illustration/student/128/white.svg" alt="Luma"> -->
+
+                            <span class="avatar avatar-xl sidebar-brand-icon h-auto">
+
+                                <span class="avatar-title rounded bg-primary"><img src="../public/images/illustration/student/128/white.svg"
+                                         class="img-fluid"
+                                         alt="logo" /></span>
+
+                            </span>
+
+                            <span>Luma</span>
+                        </a>
+
+                        <div class="sidebar-heading">Student</div>
+                        <ul class="sidebar-menu">
+
+                            <li class="sidebar-menu-item active">
+                                <a class="sidebar-menu-button"
+                                   href="index.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">home</span>
+                                    <span class="sidebar-menu-text">Home</span>
+                                </a>
+                            </li>
+                           
+                        
+                           
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-dashboard.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_box</span>
+                                    <span class="sidebar-menu-text">Student Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-my-courses.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">search</span>
+                                    <span class="sidebar-menu-text">My Courses</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-paths.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">timeline</span>
+                                    <span class="sidebar-menu-text">My Paths</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-path.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">change_history</span>
+                                    <span class="sidebar-menu-text">Path Details</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-course.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">face</span>
+                                    <span class="sidebar-menu-text">Course Preview</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-lesson.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">panorama_fish_eye</span>
+                                    <span class="sidebar-menu-text">Lesson Preview</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-take-course.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">class</span>
+                                    <span class="sidebar-menu-text">Take Course</span>
+                                    <span class="sidebar-menu-badge badge badge-accent badge-notifications ml-auto">PRO</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-take-lesson.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                                    <span class="sidebar-menu-text">Take Lesson</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-take-quiz.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">dvr</span>
+                                    <span class="sidebar-menu-text">Take Quiz</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-quiz-results.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">poll</span>
+                                    <span class="sidebar-menu-text">My Quizzes</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-quiz-result-details.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">live_help</span>
+                                    <span class="sidebar-menu-text">Quiz Result</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-path-assessment.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">layers</span>
+                                    <span class="sidebar-menu-text">Skill Assessment</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="student-path-assessment-result.html">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment_turned_in</span>
+                                    <span class="sidebar-menu-text">Skill Result</span>
+                                </a>
+                            </li>
+
+                        </ul>
+ 
+                         
+                            
+                            
+                                </ul>
+                            </li>
+                        </ul>
+
 
                         <!-- // END Sidebar Content -->
 

@@ -12,8 +12,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
-$course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : 0;
+// $user_id = $_SESSION['user_id'];
+// $course_id = isset($_GET['course_id']) ? intval($_GET['course_id']) : 0;
 
 // Debug: Print course_id
 
