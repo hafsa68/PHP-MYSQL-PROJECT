@@ -1,4 +1,6 @@
-<?php include_once("includes/db_config.php"); ?>
+<?php include_once("includes/db_config.php");
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en"
     dir="ltr">
@@ -360,7 +362,7 @@
                             <a class="dropdown-item"
                                 href="billing-history.html">Payments</a>
                             <a class="dropdown-item"
-                                href="login.html">Logout</a>
+                                href="logout.php">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -420,37 +422,58 @@
 
 
             <div class="container page__container page-section">
-                <?php
-                if (isset($_POST['update'])) {
-                    $name = ($_POST['name']);
-                    $description = ($_POST['description']);
-                    $id = $_POST['id'];
-                    $sql = "UPDATE categories SET name ='$name',description ='$description' WHERE id = '$id'";
-                     $db->query($sql);
-                     
-                    if ($db->affected_rows) {
-                       
-                        echo '<div class="alert alert-soft-success d-flex"
-            role="alert">
-            <i class="material-icons mr-12pt">check_circle</i>
-            <div class="text-body">
-           Update Successfully 
+               <?php
+if (isset($_POST['update'])) {
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $description = $_POST['description'];
+    
+    // ১. ডাটাবেস থেকে বর্তমান ছবির নাম আগে নিয়ে আসা (যাতে নতুন ছবি না দিলে আগেরটা থাকে)
+    $current_query = $db->query("SELECT thumbnail FROM categories WHERE id = '$id'");
+    $current_data = $current_query->fetch_object();
+    $thumbnail = $current_data->thumbnail; 
+
+    // ২. নতুন ফাইল আপলোড চেক করা
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
+        $target_dir = "../uploads/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        
+        $file_name = time() . '_' . basename($_FILES['thumbnail']['name']);
+        $upload_path = $target_dir . $file_name;
+
+        if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_path)) {
             
-            </div> </div>';
-            
-                    } else {
-                        echo ('Error');
-                    }
-                }
-                ?>
-                <div class="row mb-32pt">
+            if(!empty($current_data->thumbnail) && file_exists($target_dir . $current_data->thumbnail)){
+                unlink($target_dir . $current_data->thumbnail);
+            }
+            $thumbnail = $file_name; 
+        }
+    }
+
+    
+    $sql = "UPDATE categories SET name ='$name', thumbnail ='$thumbnail', description ='$description' WHERE id = '$id'";
+    $db->query($sql);
+
+    if ($db->affected_rows > 0 || $db->errno == 0) {
+        echo '<div class="alert alert-soft-success d-flex" role="alert">
+                <i class="material-icons mr-12pt">check_circle</i>
+                <div class="text-body">Update Successfully</div> 
+              </div>';
+    } else {
+        echo '<div class="alert alert-danger">Update Failed!</div>';
+    }
+}
+?>
+ <div class="row mb-32pt">
 
                     <div class="col-lg-8 d-flex align-items-center">
 
                         <div class="flex" style="max-width: 100%">
 
                             <!-- Form Start -->
-                            <form action="" method="POST">
+                            <form action="" method="POST" enctype="multipart/form-data">
 
                                 <div class="form-group">
                                     <label class="form-label" for="categoryName">Category Name:</label>
@@ -458,7 +481,7 @@
                                         class="form-control"
                                         id="categoryName"
                                         name="name"
-                                        placeholder="Enter category name" value="<?php echo $row->name; ?>" 
+                                        placeholder="Enter category name" value="<?php echo $row->name; ?>"
                                         required>
                                 </div>
 
@@ -469,16 +492,28 @@
                                         name="description"
                                         placeholder="Write something..."
                                         rows="3"> <?php echo $row->description; ?></textarea>
+
                                 </div>
-                                        <input type="hidden" name="id" value="<?php echo $id ?>"> <br>
+
+                                <div class="form-group mt-3">
+                                    <label class="form-label" for="thumbnail">Thumbnail Image:</label>
+                                    <input type="file"
+                                        class="form-control"
+                                        id="thumbnail"
+                                        name="thumbnail"
+                                        accept="image/*">
+                                    <small class="form-text text-muted">Recommended: 430x168 pixels (JPG, PNG)</small>
+                                </div>
+
+                                <input type="hidden" name="id" value="<?php echo $id ?>"> <br>
                                 <button type="submit" name="update" class="btn btn-primary mt-3">
                                     Update Category
                                 </button>
                                 &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                               <a href="category_manage.php" class="btn btn-primary mt-3">CHECK</a>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <a href="category_manage.php" class="btn btn-primary mt-3">CHECK</a>
 
                             </form>
                             <!-- Form End -->

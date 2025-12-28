@@ -1,4 +1,5 @@
-<?php include_once("includes/db_config.php"); ?>
+<?php include_once("includes/db_config.php");
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en"
     dir="ltr">
@@ -360,7 +361,7 @@
                             <a class="dropdown-item"
                                 href="billing-history.html">Payments</a>
                             <a class="dropdown-item"
-                                href="login.html">Logout</a>
+                                href="logout.php">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -417,72 +418,66 @@
                 
 
 
-                if (isset($_POST['submit'])) {
+               
+if (isset($_POST['submit'])) {
+    // 1. Data Sanitization
+    $title = mysqli_real_escape_string($db, $_POST['title']);
+    $description = mysqli_real_escape_string($db, $_POST['description']);
+    $short_description = mysqli_real_escape_string($db, $_POST['short_description']);
+    $price = floatval($_POST['price']);
+    $discounted_price = floatval($_POST['discounted_price']);
+    $category_id = intval($_POST['category_id']);
+    $teacher_name = intval($_POST['teacher_name']);
+    $level = mysqli_real_escape_string($db, $_POST['level']);
+    $duration = intval($_POST['duration']);
 
+    // Checkbox logic
+    $is_published = isset($_POST['is_published']) ? 1 : 0;
+    $is_featured = isset($_POST['is_featured']) ? 1 : 0;
 
-                    $title = mysqli_real_escape_string($db, $_POST['title']);
-                    $description = mysqli_real_escape_string($db, $_POST['description']);
-                    $short_description = mysqli_real_escape_string($db, $_POST['short_description']);
-                    $price = floatval($_POST['price']);
-                    $discounted_price = floatval($_POST['discounted_price']);
-                    $category_id = intval($_POST['category_id']);
-                    $teacher_id = intval($_POST['teacher_id']);
-                    $level = $_POST['level'];
-                    $duration = intval($_POST['duration']);
+    // 2. Image Upload
+    $thumbnail = '';
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
+        $target_dir = "../uploads/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $file_name = time() . '_' . basename($_FILES['thumbnail']['name']);
+        $upload_path = $target_dir . $file_name;
 
+        if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_path)) {
+            $thumbnail = $file_name;
+        }
+    }
 
-                    $is_published = isset($_POST['is_published']) ? 1 : 0;
-                    $is_featured = isset($_POST['is_featured']) ? 1 : 0;
+    // 3. Slug creation
+    $slug = strtolower(trim($title));
+    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug) . '-' . time();
 
-
-                    $thumbnail = '';
-                    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
-                        $file_name = time() . '_' . $_FILES['thumbnail']['name'];
-                        $upload_path = "../uploads/" . $file_name;
-
-
-                        if (!file_exists("../uploads/")) {
-                            mkdir("../uploads/", 0777, true);
-                        }
-
-
-                        if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_path)) {
-                            $thumbnail = $file_name;
-                        }
-                    }
-
-
-                    $slug = strtolower(trim($title));
-                    $slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
-                    $slug .= '-' . time();
-
-                    $sql = "INSERT INTO courses (
+    // 4. Final SQL Query (Quotes removed for Integer fields)
+    $sql = "INSERT INTO courses (
         title, slug, description, short_description, 
-        price, discounted_price, category_id, teacher_id,
+        price, discounted_price, category_id, teacher_name,
         thumbnail, level, duration,
-        is_published,is_featured,
+        is_published, is_featured,
         created_at, updated_at
     ) VALUES (
         '$title', '$slug', '$description', '$short_description',
-        '$price', '$discounted_price', '$category_id', '$teacher_id',
-        '$thumbnail', '$level', '$duration',
-        '$is_published','$is_featured',
+        $price, $discounted_price, $category_id, $teacher_name,
+        '$thumbnail', '$level', $duration,
+        $is_published, $is_featured,
         NOW(), NOW()
     )";
-                    $db->query($sql);
 
-                    if ($db->affected_rows) {
-                        echo '<div class="alert alert-success" role="alert">
-                     Course added successfully!
-                    </div>';
-                    } else {
-                        echo '<div class="alert alert-danger" role="alert">
-                     Error: ' . mysqli_error($db) . '
-                    </div>';
-                    }
-                }
-                ?>
-
+    // 5. Execute and Check
+    if (mysqli_query($db, $sql)) {
+        echo '<div class="alert alert-success">Course added successfully!</div>';
+    } else {
+        // Eta apnake exact error-ti bole dibe
+        echo '<div class="alert alert-danger">Error: ' . mysqli_error($db) . '</div>';
+    }
+}
+?>
                 <div class="row mb-32pt">
                     <div class="col-lg-8 d-flex align-items-center">
                         <div class="flex" style="max-width: 100%">
@@ -579,10 +574,10 @@
                                 </div>
 
                                 <div class="form-group mt-3">
-                                    <label class="form-label" for="teacher_id">Instructor:</label>
+                                    <label class="form-label" for="teacher_name">Instructor:</label>
                                     <select class="form-control"
-                                        id="teacher_id"
-                                        name="teacher_id"
+                                        id="teacher_name"
+                                        name="teacher_name"
                                         required>
                                         <option value="">Select Instructor</option>
                                         <?php
@@ -594,7 +589,7 @@
                                                     $teacher['full_name'] :
                                                     $teacher['email'];
 
-                                                echo '<option value="' . $teacher['id'] . '">' .
+                                                echo '<option value="' . $teacher['teacher_name'] . '">' .
                                                     htmlspecialchars($display_name) .
                                                     '</option>';
                                             }

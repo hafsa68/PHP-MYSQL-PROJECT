@@ -51,12 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssssiis", $email, $hashed_password, $full_name, $phone, $role, $avatar_name, $is_active);
 
     if ($stmt->execute()) {
-        // ✅ Redirect to student dashboard after signup
-        $_SESSION['student_email'] = $email;
-        $_SESSION['student_name'] = $full_name;
-        header("Location:student_dashboard.php");
-        exit;
-    } else {
+    // ✅ Session-e shob proyojoniyo data save korun
+    $_SESSION['user_id'] = $db->insert_id; // Database theke auto increment ID
+    $_SESSION['full_name'] = $full_name;
+    $_SESSION['email'] = $email;
+    $_SESSION['role'] = $role;
+    $_SESSION['avatar'] = $avatar_name; // Eti sidebar-er chobir jonno dorkar
+
+    header("Location: student_dashboard.php");
+    exit;
+}
+     else {
         $error = "Error: " . $stmt->error;
     }
 

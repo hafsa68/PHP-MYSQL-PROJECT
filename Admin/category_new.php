@@ -1,4 +1,5 @@
-<?php include_once("includes/db_config.php"); ?>
+<?php include_once("includes/db_config.php");
+session_start(); ?>
 <!DOCTYPE html>
 <html lang="en"
     dir="ltr">
@@ -360,7 +361,7 @@
                             <a class="dropdown-item"
                                 href="billing-history.html">Payments</a>
                             <a class="dropdown-item"
-                                href="login.html">Logout</a>
+                                href="logout.php">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -415,11 +416,26 @@
                 if (isset($_POST['submit'])) {
                     $name = ($_POST['name']);
                     $description = ($_POST['description']);
-                    $sql = "INSERT INTO categories (name, description, created_at) VALUES ('$name','$description', NOW())";
-                     $db->query($sql);
-                     
+                    
+                     $thumbnail = '';
+    if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] == 0) {
+        $target_dir = "../uploads/";
+        if (!file_exists($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $file_name = time() . '_' . basename($_FILES['thumbnail']['name']);
+        $upload_path = $target_dir . $file_name;
+
+        if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $upload_path)) {
+            $thumbnail = $file_name;
+        }
+    }
+                    $sql = "INSERT INTO categories (name,
+thumbnail,description, created_at) VALUES ('$name','$thumbnail','$description', NOW())";
+                    $db->query($sql);
+
                     if ($db->affected_rows) {
-                        
+
                         echo '<div class="alert alert-soft-success d-flex"
             role="alert">
             <i class="material-icons mr-12pt">check_circle</i>
@@ -427,7 +443,6 @@
             Successfully Inserted
             
             </div> </div>';
-            
                     } else {
                         echo ('Error');
                     }
@@ -440,7 +455,7 @@
                         <div class="flex" style="max-width: 100%">
 
                             <!-- Form Start -->
-                            <form action="" method="POST">
+                            <form action="" method="POST" enctype="multipart/form-data">
 
                                 <div class="form-group">
                                     <label class="form-label" for="categoryName">Category Name:</label>
@@ -460,15 +475,25 @@
                                         placeholder="Write something..."
                                         rows="3"></textarea>
                                 </div>
+                                 <div class="form-group mt-3">
+                                    <label class="form-label" for="thumbnail">Thumbnail Image:</label>
+                                    <input type="file"
+                                        class="form-control"
+                                        id="thumbnail"
+                                        name="thumbnail"
+                                        accept="image/*">
+                                    <small class="form-text text-muted">Recommended: 430x168 pixels (JPG, PNG)</small>
+                                </div>
+
 
                                 <button type="submit" name="submit" class="btn btn-primary mt-3">
                                     Add New Category
                                 </button>
-                                     &nbsp;
-                            &nbsp;
-                            &nbsp;
-                            &nbsp;
-                               <a href="category_manage.php" class="btn btn-primary mt-3">CHECK</a>
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <a href="category_manage.php" class="btn btn-primary mt-3">CHECK</a>
                             </form>
                             <!-- Form End -->
 
@@ -520,7 +545,7 @@
 
                     <!-- Sidebar Content -->
 
-                    <?php include_once("includes/sidebar.php"); ?>
+                    <?php include_once("includes/sidebar.php") ?>
                     <!-- // END Sidebar Content -->
 
                 </div>

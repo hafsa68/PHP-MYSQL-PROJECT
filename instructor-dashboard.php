@@ -5,7 +5,7 @@ session_start();
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: 0");
 if (!isset($_SESSION['email']) || $_SESSION['role'] != 2) {
-    header("Location:login.php");
+    header("Location:index.php");
     exit;
 }
 ?>
@@ -724,95 +724,7 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] != 2) {
                          data-perfect-scrollbar>
 
                         <!-- Sidebar Content -->
-
-                        <div class="d-flex align-items-center navbar-height">
-                            <form action="index.html"
-                                  class="search-form search-form--black mx-16pt pr-0 pl-16pt">
-                                <input type="text"
-                                       class="form-control pl-0"
-                                       placeholder="Search">
-                                <button class="btn"
-                                        type="submit"><i class="material-icons">search</i></button>
-                            </form>
-                        </div>
-
-                        <a href="index.html"
-                           class="sidebar-brand ">
-                            <!-- <img class="sidebar-brand-icon" src="public/images/illustration/teacher/128/white.svg" alt="Luma"> -->
-
-                            <span class="avatar avatar-xl sidebar-brand-icon h-auto">
-
-                                <span class="avatar-title rounded bg-primary"><img src="public/images/illustration/teacher/128/white.svg"
-                                         class="img-fluid"
-                                         alt="logo" /></span>
-
-                            </span>
-
-                            <span>Luma</span>
-                        </a>
-
-                        <div class="sidebar-heading">Instructor</div>
-                        <ul class="sidebar-menu">
-
-                            <li class="sidebar-menu-item active">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-dashboard.php">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">school</span>
-                                    <span class="sidebar-menu-text">Instructor Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-courses.html">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
-                                    <span class="sidebar-menu-text">Manage Courses</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-quizzes.html">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
-                                    <span class="sidebar-menu-text">Manage Quizzes</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-earnings.html">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">trending_up</span>
-                                    <span class="sidebar-menu-text">Earnings</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-statement.html">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">receipt</span>
-                                    <span class="sidebar-menu-text">Statement</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-edit-course.html">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">post_add</span>
-                                    <span class="sidebar-menu-text">Edit Course</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button"
-                                   href="instructor-edit-quiz.html">
-                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">format_shapes</span>
-                                    <span class="sidebar-menu-text">Edit Quiz</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                       
-                           
-                        
-
-                        
-                            
-                        </ul>
-
+<?php include_once("Admin/includes/sidebar.php"); ?>
                         <!-- // END Sidebar Content -->
 
                     </div>

@@ -1,4 +1,6 @@
-<?php include_once("includes/db_config.php"); ?>
+<?php include_once("includes/db_config.php");
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en"
     dir="ltr">
@@ -360,7 +362,7 @@
                             <a class="dropdown-item"
                                 href="billing-history.html">Payments</a>
                             <a class="dropdown-item"
-                                href="login.html">Logout</a>
+                                href="logout.php">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -383,100 +385,59 @@
                         <div class="card m-0">
                             <?php
                             $sql = "SELECT * FROM categories";
-                            $list = $db->query($sql);
+                            $result = $db->query($sql);
 
 
                             ?>
-                            <div class="table-responsive"
-                                data-toggle="lists"
-                                data-lists-sort-by="js-lists-values-employee-name"
-                                data-lists-values='["js-lists-values-employee-name", "js-lists-values-employer-name", "js-lists-values-projects", "js-lists-values-activity", "js-lists-values-earnings"]'>
+                            <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>All Categories</h2>
+        <a href="category_new.php" class="btn btn-primary">Add New Categories</a>
+    </div>
 
-                                <div class="card-header">
-                                    <div class="search-form">
-                                        <input type="text"
-                                            class="form-control search"
-                                            placeholder="Search ...">
-                                        <button class="btn"
-                                            type="button"><i class="material-icons">search</i></button>
-                                    </div>
-                                </div>
+    <div class="row">
+        <?php if ($result->num_rows > 0): ?>
+            <?php while ($row = $result->fetch_object()): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="../uploads/<?php echo htmlspecialchars($row->thumbnail); ?>"
+                             class="card-img-top" style="height:180px;object-fit:cover;" alt="Course">
 
-                                <table class="table mb-0 thead-border-top-0 table-nowrap">
-                                    <thead>
-                                        <tr>
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($row->description); ?></h5>
+                            
+                            
+                        </div>
 
-
-                                            <th class="text-center" style="width: 37px;">ID</th>
-                                            <th class="text-center" style="width: 37px;">Name</th>
-
-
-                                            <th class="text-center">
-                                                <a href="javascript:void(0)"
-                                                    class="sort"
-                                                    data-sort="js-lists-values-employee-name">Description</a>
-                                            </th>
-
-                                            <th class="text-center" style="width: 120px;">
-                                                <a href="javascript:void(0)"
-                                                    class="sort"
-                                                    data-sort="js-lists-values-activity">Activity</a>
-                                            </th>
-
-                                            <th class="text-center" style="width: 24px;"
-                                                class="pl-0" colspan="2">
-                                                Action
-
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list"
-                                        id="search">
-                                        <?php while ($row1 = $list->fetch_object()): ?>
-                                            <tr>
-                                                <td>
-                                                    <?php echo $row1->id; ?>
-
-                                                </td>
-                                                <td>
-
-                                                    <div class="d-flex flex-column">
-                                                        <?php echo $row1->name; ?>
-                                                    </div>
-
-                                                </td>
-
-                                                <td>
-                                                    <?php echo $row1->description; ?>
-
-                                                </td>
-
-                                                <td><?php echo $row1->created_at; ?></td>
-
-                                                <td class="text-center">
-                                                    <a href="category_edit.php?id=<?php echo $row1->id; ?>"><i class="fas fa-edit"></i></a>
-                                                    &nbsp;
-                                                    &nbsp;
-                                                    &nbsp;
-                                                    &nbsp;
-                                                    <a onclick="return confirm('Are you sure to delete')" href="category_delete.php?id=<?php echo $row1->id; ?>"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        <?php endwhile; ?>
-
-
-
-
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="category_edit.php?id=<?php echo $row->id; ?>" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="category_delete.php?id=<?php echo $row->id; ?>" class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Are you sure?')">Reaject</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <div class="col-12">
+                <div class="alert alert-warning text-center">No Categories found</div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
 
                         </div>
 
                     </div>
                 </div>
             </div>
+
+
+
             <!-- BEFORE Page Content -->
+
+
+
+
 
             <!-- // END BEFORE Page Content -->
 

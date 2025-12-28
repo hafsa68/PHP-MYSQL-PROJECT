@@ -360,7 +360,7 @@
                             <a class="dropdown-item"
                                 href="billing-history.html">Payments</a>
                             <a class="dropdown-item"
-                                href="login.html">Logout</a>
+                                href="logout.php">Logout</a>
                         </div>
                     </div>
                 </div>
