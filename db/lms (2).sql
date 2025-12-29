@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2025 at 11:12 PM
+-- Generation Time: Dec 29, 2025 at 02:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,7 +62,10 @@ INSERT INTO `announcements` (`id`, `course_id`, `teacher_id`, `title`, `content`
 (3, 1, 2, 'Today off day', 'Today off day caz hadi issue', 1, '2025-12-19 16:05:04'),
 (4, 1, 2, 'Today off day', 'Today off day caz hadi issue', 1, '2025-12-19 16:05:10'),
 (5, 1, 2, 'Today off day', 'Today off day caz hadi issue', 1, '2025-12-19 16:05:33'),
-(6, 1, 2, 'Today off day ok', 'Today off day caz hadi issue', 1, '2025-12-19 16:05:59');
+(6, 1, 2, 'Today off day ok', 'Today off day caz hadi issue', 1, '2025-12-19 16:05:59'),
+(11, NULL, NULL, 'ok', 'todat class off', 0, '2025-12-21 03:14:55'),
+(12, NULL, NULL, 'ok', 'todat class off', 0, '2025-12-21 03:15:02'),
+(15, NULL, NULL, 'yes', 'gfhhgkhjg', 0, '2025-12-21 03:18:13');
 
 -- --------------------------------------------------------
 
@@ -112,25 +115,13 @@ CREATE TABLE `assignment_submissions` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `cart`
---
-
-CREATE TABLE `cart` (
-  `id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `course_id` int(11) DEFAULT NULL,
-  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `categories`
 --
 
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -139,12 +130,26 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `description`, `created_at`) VALUES
-(1, 'WebDevelopment', 'WebDevelopment with php and leraval', '2025-12-08 20:47:35'),
-(2, 'WebDevelopment', 'WebDevelopment with php and leraval', '2025-12-08 20:49:14'),
-(8, 'WebDevelopment', 'Laravel and react', '2025-12-08 20:53:39'),
-(11, 'WebDevelopment', 'Laravel and react', '2025-12-08 20:57:23'),
-(12, 'WebDevelopment', 'Laravel and react', '2025-12-08 20:57:37');
+INSERT INTO `categories` (`id`, `name`, `thumbnail`, `description`, `created_at`) VALUES
+(1, 'WebDevelopment', '1766943842_angular_64x64.svg', ' WebDevelopment with php and leraval', '2025-12-08 20:47:35'),
+(2, 'WebDevelopment', '1766943861_craft_40x40@2x.png', ' WebDevelopment with php and leraval', '2025-12-08 20:49:14'),
+(8, 'WebDevelopment', '1766943771_256_rsz_dex-ezekiel-761373-unsplash.jpg', '     Laravel and react', '2025-12-08 20:53:39'),
+(11, 'WebDevelopment', '1766943786_256_rsz_clem-onojeghuo-193397-unsplash.jpg', ' Laravel and react', '2025-12-08 20:57:23'),
+(13, 'Web Development', '1766940858_devops_200x168.png', 'WebDevelopment', '2025-12-28 16:54:18'),
+(14, 'WebDevelopment with php and leraval', '1766943073_256_rsz_ross-sneddon-798476-unsplash.jpg', 'WebDevelopment with php and leraval', '2025-12-28 17:31:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `certificates`
+--
+
+CREATE TABLE `certificates` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `generated_date` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -180,9 +185,7 @@ CREATE TABLE `courses` (
 INSERT INTO `courses` (`id`, `title`, `slug`, `description`, `short_description`, `price`, `discounted_price`, `category_id`, `teacher_name`, `thumbnail`, `level`, `duration`, `avg_rating`, `is_published`, `is_featured`, `access_period`, `created_at`, `updated_at`) VALUES
 (21, 'PHP & MySQL Web Development', 'php--mysql-web-development', 'The PHP & MySQL Web Development course is designed for beginners to intermediate learners who want to create dynamic and secure web applications. This course focuses on server-side programming and database management, which are essential skills for modern web development.\n\nYou will learn PHP to handle server-side logic such as form processing, authentication, and session management. You will also learn MySQL to design, store, retrieve, and manage data efficiently using databases.', 'Learn how to build dynamic, database-driven websites using PHP and MySQL from scratch.', 5000.00, 2500.00, 1, 'Hafsa', '1765747563_OIP.webp', 'beginner', 6, 0.00, 1, 0, NULL, '2025-12-14 21:26:03', '2025-12-14 21:26:03'),
 (22, 'PHP & MySQL Web Development', 'php-mysql-web-development-1765981319', 'The PHP & MySQL Web Development course is designed for beginners to intermediate learners who want to create dynamic and secure web applications. This course focuses on server-side programming and database management, which are essential skills for modern web development.', 'Learn how to build dynamic, database-driven websites using PHP and MySQL from scratch.', 4000.00, 2000.00, 11, 'Fariha', '1765981319_angular_96x96.png', 'beginner', 5, 0.00, 1, 0, NULL, '2025-12-17 14:21:59', '2025-12-17 14:21:59'),
-(27, 'Web Development Bootcamp', 'web-development-bootcamp', 'Learn full-stack web development from scratch', NULL, 299.99, 199.99, NULL, 'Mim', 'webdev.jpg', 'Beginner', 60, 0.00, 0, 0, NULL, '2025-12-19 21:32:19', '2025-12-19 21:32:19'),
-(28, 'Data Science Fundamentals', 'data-science-fundamentals', 'Introduction to data science and machine learning', NULL, 399.99, 349.99, NULL, 'Jitu', 'datascience.jpg', 'Intermediate', 80, 0.00, 0, 0, NULL, '2025-12-19 21:32:19', '2025-12-19 21:32:19'),
-(31, 'Web Development Bootcamp', 'web-development-1', 'Learn full-stack web development', NULL, 299.99, 199.99, NULL, 'Fatema', 'webdev.jpg', 'Beginner', 60, 0.00, 0, 0, NULL, '2025-12-19 21:34:22', '2025-12-19 21:34:22');
+(32, 'Artificial Intelligence & Data Science', 'artificial-intelligence-data-science-1766306005', 'Short courses (often on Udemy or LinkedIn Learning) focused on maximizing AI output.', 'Short courses (often on Udemy or LinkedIn Learning) focused on maximizing AI output.', 15000.00, 1000.00, 1, '0', '1766306005_angular_96x96.png', 'beginner', 0, 0.00, 1, 0, NULL, '2025-12-21 08:33:25', '2025-12-21 08:33:25');
 
 -- --------------------------------------------------------
 
@@ -198,6 +201,64 @@ CREATE TABLE `enrollments` (
   `access_expiry` date DEFAULT NULL,
   `is_active` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `enrollments`
+--
+
+INSERT INTO `enrollments` (`id`, `student_id`, `course_id`, `enrollment_date`, `access_expiry`, `is_active`) VALUES
+(1, 1, 21, '2025-12-20 17:36:21', NULL, 1),
+(2, 1, 31, '2025-12-20 17:40:37', NULL, 1),
+(4, 1, 22, '2025-12-20 17:44:52', NULL, 0),
+(7, 1, 27, '2025-12-20 17:51:37', NULL, 1),
+(8, 1, 28, '2025-12-20 17:53:29', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lessons`
+--
+
+CREATE TABLE `lessons` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text DEFAULT NULL,
+  `order_index` int(11) DEFAULT 0,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lessons`
+--
+
+INSERT INTO `lessons` (`id`, `course_id`, `title`, `content`, `order_index`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Introduction to PHP', 'This lesson covers basics of PHP.', 1, '2025-12-28 17:36:17', '2025-12-28 17:36:17'),
+(2, 1, 'Variables in PHP', 'Learn about PHP variables starting with $.', 2, '2025-12-28 17:36:17', '2025-12-28 17:36:17'),
+(3, 1, 'Loops in PHP', 'For loop, while loop explained.', 3, '2025-12-28 17:36:17', '2025-12-28 17:36:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `is_read` tinyint(1) DEFAULT 0,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `user_id`, `message`, `is_read`, `created_at`) VALUES
+(1, 1, 'Your quiz PHP Basics result is available', 0, '2025-12-28 17:48:37'),
+(2, 2, 'New lesson added in PHP Basics', 0, '2025-12-28 17:48:37');
 
 -- --------------------------------------------------------
 
@@ -221,6 +282,14 @@ CREATE TABLE `payments` (
   `verified_by` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `transaction_id`, `student_id`, `course_id`, `amount`, `discount_amount`, `payment_method_id`, `mobile_number`, `transaction_number`, `payment_status`, `paid_at`, `verified_at`, `verified_by`, `created_at`) VALUES
+(2, 'TRX1766252692', 1, 22, 2000.00, 0.00, 1, '01734667676', '1234', 'pending', '2025-12-20 17:44:52', '0000-00-00 00:00:00', NULL, '2025-12-20 17:44:52'),
+(3, 'TRX1766253059', 1, 21, 2500.00, 0.00, 1, '01734667676', '1234', 'completed', '2025-12-20 17:57:49', '2025-12-20 17:57:49', NULL, '2025-12-20 17:50:59');
 
 -- --------------------------------------------------------
 
@@ -251,73 +320,6 @@ INSERT INTO `payment_methods` (`id`, `name`, `type`, `account_number`, `account_
 -- --------------------------------------------------------
 
 --
--- Table structure for table `quizzes`
---
-
-CREATE TABLE `quizzes` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `passing_score` int(11) DEFAULT 60,
-  `time_limit` int(11) DEFAULT 0 COMMENT 'minutes, 0 = no limit',
-  `is_active` tinyint(1) DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `quizzes`
---
-
-INSERT INTO `quizzes` (`id`, `title`, `description`, `passing_score`, `time_limit`, `is_active`, `created_at`) VALUES
-(1, 'php', 'php', 30, 15, 1, '2025-12-19 11:23:34');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quiz_answers`
---
-
-CREATE TABLE `quiz_answers` (
-  `id` int(11) NOT NULL,
-  `question_id` int(11) DEFAULT NULL,
-  `answer_text` text DEFAULT NULL,
-  `is_correct` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `quiz_answers`
---
-
-INSERT INTO `quiz_answers` (`id`, `question_id`, `answer_text`, `is_correct`) VALUES
-(1, 1, 'PHP is a Hypertext Preprocessors.', 1),
-(3, 2, 'Python is a Programming Language.', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quiz_questions`
---
-
-CREATE TABLE `quiz_questions` (
-  `id` int(11) NOT NULL,
-  `quiz_id` int(11) DEFAULT NULL,
-  `question` text NOT NULL,
-  `question_type` varchar(20) DEFAULT '' COMMENT 'true_false/short_answer',
-  `points` int(11) DEFAULT 1,
-  `order_index` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `quiz_questions`
---
-
-INSERT INTO `quiz_questions` (`id`, `quiz_id`, `question`, `question_type`, `points`, `order_index`) VALUES
-(1, 1, 'what is PHP?', 'true_false', 2, 0),
-(2, 1, 'What is Python?', 'true_false', 2, 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `reviews`
 --
 
@@ -334,16 +336,78 @@ CREATE TABLE `reviews` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `student_profiles`
+-- Table structure for table `student_progress`
 --
 
-CREATE TABLE `student_profiles` (
+CREATE TABLE `student_progress` (
   `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `points` int(11) DEFAULT 0,
-  `level` varchar(50) DEFAULT 'beginner',
-  `total_courses` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `student_id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `lesson_id` int(11) NOT NULL,
+  `is_completed` tinyint(1) DEFAULT 0,
+  `completed_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_progress`
+--
+
+INSERT INTO `student_progress` (`id`, `student_id`, `course_id`, `lesson_id`, `is_completed`, `completed_at`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, '2025-12-28 17:37:05', '2025-12-28 17:37:05', '2025-12-28 17:37:05'),
+(2, 1, 1, 2, 0, NULL, '2025-12-28 17:37:05', '2025-12-28 17:37:05'),
+(3, 2, 1, 1, 1, '2025-12-28 17:37:05', '2025-12-28 17:37:05', '2025-12-28 17:37:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_quiz`
+--
+
+CREATE TABLE `tbl_quiz` (
+  `tbl_quiz_id` int(11) NOT NULL,
+  `quiz_question` text NOT NULL,
+  `option_a` text NOT NULL,
+  `option_b` text NOT NULL,
+  `option_c` text NOT NULL,
+  `option_d` text NOT NULL,
+  `correct_answer` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_quiz`
+--
+
+INSERT INTO `tbl_quiz` (`tbl_quiz_id`, `quiz_question`, `option_a`, `option_b`, `option_c`, `option_d`, `correct_answer`) VALUES
+(1, 'What is HTML stands for?', 'How To Make Lumpia', 'Hyper Tronic Mongo Logic', 'Hard To Make Love', 'HyperText Markup Language', 'D'),
+(2, 'What is the original acronym of PHP?', 'Hypertext Preprocessor', 'Personal Home Page', 'Programming Happy Pill', 'None of the above', 'B'),
+(3, 'CSS is fundamental to?', 'Databases', 'Web design', 'Server-side', 'None of the above', 'B'),
+(4, 'What is PHP?', 'P', 'H', 'K', 'L', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_result`
+--
+
+CREATE TABLE `tbl_result` (
+  `tbl_result_id` int(11) NOT NULL,
+  `quiz_taker` text NOT NULL,
+  `year_section` text NOT NULL,
+  `total_score` int(11) NOT NULL,
+  `date_taken` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_result`
+--
+
+INSERT INTO `tbl_result` (`tbl_result_id`, `quiz_taker`, `year_section`, `total_score`, `date_taken`) VALUES
+(2, 'student@gmail.com', '', 0, '2025-12-19 21:00:00'),
+(3, 'student@gmail.com', '', 1, '2025-12-19 21:00:00'),
+(4, 'student@gmail.com', '', 2, '2025-12-19 21:00:00'),
+(5, 'student@gmail.com', '', 2, '2025-12-19 21:00:00');
 
 -- --------------------------------------------------------
 
@@ -370,31 +434,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `full_name`, `phone`, `role`, `avatar`, `is_active`, `email_verified`, `created_at`, `updated_at`) VALUES
-(1, 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', NULL, NULL, '1', NULL, 1, 0, '2025-12-07 05:54:50', '2025-12-07 05:54:50'),
+(1, 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Hafsa Ifti', '0145755876', '1', '256_michael-dam-258165-unsplash.jpg', 1, 0, '2025-12-07 05:54:50', '2025-12-07 05:54:50'),
 (2, 'student@gmail.com', 'cd73502828457d15655bbd7a63fb0bc8', NULL, NULL, '3', NULL, 1, 0, '2025-12-08 04:26:20', '2025-12-08 04:26:20'),
-(3, 'instructor@gmail.com', '175cca0310b93021a7d3cfb3e4877ab6', NULL, NULL, '2', NULL, 1, 0, '2025-12-08 05:09:12', '2025-12-08 05:09:12'),
 (5, 'hafsa09876@gmail.com', '$2y$10$aJfMamdShl5ApUVu96IxcuXUA', 'Hafsa Akter', '01943365442', '3', '1766163918', 1, 0, '2025-12-19 17:05:18', '2025-12-19 17:05:18'),
-(6, 'hafsa@gmail.com', '$2y$10$j0fui1nksHaFriurMLx60.9Ki', 'Hafsa Akter', '01943365442', '3', '1766164009', 1, 0, '2025-12-19 17:06:50', '2025-12-19 17:06:50'),
-(7, 'fariha@gmail.com', '$2y$10$QrONoJ2yw4Gjci0ROLD.Q.ipD', 'Fariha Akter', '01743565442', '3', '1766164607', 1, 0, '2025-12-19 17:16:47', '2025-12-19 17:16:47'),
-(8, 'fariha23@gmail.com', '$2y$10$ovGzaV/efr/cne9lNBXL/uDQQ', 'Fariha', '01743565442', '3', '1766165330', 1, 0, '2025-12-19 17:28:51', '2025-12-19 17:28:51'),
-(9, 'fariha235@gmail.com', '$2y$10$q2k6yawaAnkVwP25raKLcu4pI', 'Fariha', '01743565442', '3', '1766165472', 1, 0, '2025-12-19 17:31:12', '2025-12-19 17:31:12'),
 (10, 'fariha2@gmail.com', '$2y$10$6h1rRYvYoKhBeC0/acOR5utSw', 'Fariha', '01743565442', '3', '1766166341', 1, 0, '2025-12-19 17:45:42', '2025-12-19 17:45:42'),
-(11, 'farih5@gmail.com', '$2y$10$B/jgCzze8k/KB.1bBSt9DOpZO', 'Fariha', '01743565442', '3', '1766166692', 1, 0, '2025-12-19 17:51:32', '2025-12-19 17:51:32'),
-(12, 'farih8@gmail.com', '$2y$10$5heXA1j/MbLjcHTvkUtF7.YUV', 'Fariha', '01743565442', '3', '1766166894', 1, 0, '2025-12-19 17:54:54', '2025-12-19 17:54:54');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_profiles`
---
-
-CREATE TABLE `user_profiles` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `bio` text DEFAULT NULL,
-  `education` text DEFAULT NULL,
-  `expertise` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+(13, 'hamid@gmail.com', '$2y$10$gZ1o1QNdakqYEIAkIaqNgOccn', 'Hamid Hasan', '01743365442', '3', '1766271175', 1, 0, '2025-12-20 22:52:55', '2025-12-20 22:52:55'),
+(14, 'nima@gmail.com', 'db088d7fd61422d0dd9f2152fd550127', 'Nima Islam', '0145755876', '2', '1766271175_2358.jpg', 1, 0, '2025-12-28 15:37:39', '2025-12-28 15:37:39');
 
 --
 -- Indexes for dumped tables
@@ -438,18 +483,15 @@ ALTER TABLE `assignment_submissions`
   ADD KEY `graded_by` (`graded_by`);
 
 --
--- Indexes for table `cart`
---
-ALTER TABLE `cart`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cart_index_30` (`student_id`,`course_id`),
-  ADD KEY `cart_index_29` (`student_id`),
-  ADD KEY `course_id` (`course_id`);
-
---
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `certificates`
+--
+ALTER TABLE `certificates`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -478,6 +520,18 @@ ALTER TABLE `enrollments`
   ADD KEY `enrollments_index_22` (`enrollment_date`);
 
 --
+-- Indexes for table `lessons`
+--
+ALTER TABLE `lessons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `payments`
 --
 ALTER TABLE `payments`
@@ -499,27 +553,6 @@ ALTER TABLE `payment_methods`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `quizzes`
---
-ALTER TABLE `quizzes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `quiz_answers`
---
-ALTER TABLE `quiz_answers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quiz_answers_index_40` (`question_id`);
-
---
--- Indexes for table `quiz_questions`
---
-ALTER TABLE `quiz_questions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `quiz_questions_index_31` (`quiz_id`),
-  ADD KEY `quiz_questions_index_32` (`order_index`);
-
---
 -- Indexes for table `reviews`
 --
 ALTER TABLE `reviews`
@@ -531,11 +564,22 @@ ALTER TABLE `reviews`
   ADD KEY `reviews_index_49` (`created_at`);
 
 --
--- Indexes for table `student_profiles`
+-- Indexes for table `student_progress`
 --
-ALTER TABLE `student_profiles`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
+ALTER TABLE `student_progress`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_quiz`
+--
+ALTER TABLE `tbl_quiz`
+  ADD PRIMARY KEY (`tbl_quiz_id`);
+
+--
+-- Indexes for table `tbl_result`
+--
+ALTER TABLE `tbl_result`
+  ADD PRIMARY KEY (`tbl_result_id`);
 
 --
 -- Indexes for table `users`
@@ -545,13 +589,6 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`),
   ADD KEY `users_index_0` (`email`),
   ADD KEY `users_index_1` (`role`);
-
---
--- Indexes for table `user_profiles`
---
-ALTER TABLE `user_profiles`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -567,7 +604,7 @@ ALTER TABLE `activity_logs`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `assignments`
@@ -582,34 +619,46 @@ ALTER TABLE `assignment_submissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `cart`
---
-ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `certificates`
+--
+ALTER TABLE `certificates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `enrollments`
 --
 ALTER TABLE `enrollments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `lessons`
+--
+ALTER TABLE `lessons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `payment_methods`
@@ -618,46 +667,34 @@ ALTER TABLE `payment_methods`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `quizzes`
---
-ALTER TABLE `quizzes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `quiz_answers`
---
-ALTER TABLE `quiz_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `quiz_questions`
---
-ALTER TABLE `quiz_questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `student_profiles`
+-- AUTO_INCREMENT for table `student_progress`
 --
-ALTER TABLE `student_profiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `student_progress`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_quiz`
+--
+ALTER TABLE `tbl_quiz`
+  MODIFY `tbl_quiz_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbl_result`
+--
+ALTER TABLE `tbl_result`
+  MODIFY `tbl_result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `user_profiles`
---
-ALTER TABLE `user_profiles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -670,12 +707,6 @@ ALTER TABLE `assignment_submissions`
   ADD CONSTRAINT `assignment_submissions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `assignment_submissions_ibfk_2` FOREIGN KEY (`assignment_id`) REFERENCES `assignments` (`id`),
   ADD CONSTRAINT `assignment_submissions_ibfk_3` FOREIGN KEY (`graded_by`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `cart`
---
-ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `enrollments`
