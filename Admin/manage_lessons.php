@@ -1,34 +1,41 @@
 <?php
-include_once("includes/db_config.php");
+include_once("includes/db_config.php"); 
 session_start();
-
+$all_courses = $db->query("SELECT id, title FROM courses ORDER BY title ASC");
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) { 
-    
+     
+}
+
+$course_id = isset($_GET['course_id']) ? (int)$_GET['course_id'] : 0;
+
+if (isset($_POST['add_lesson'])) {
+    $course_id = (int)$_POST['course_id'];
+    $title = mysqli_real_escape_with_str($db, $_POST['title']);
+    $content = mysqli_real_escape_with_str($db, $_POST['content']);
+
+    $insert_sql = "INSERT INTO lessons (course_id, title, content) VALUES ('$course_id', '$title', '$content')";
+    if ($db->query($insert_sql)) {
+        $msg = "Lesson added successfully!";
+    }
 }
 
 
-
-
-$id = (int)$_GET['id'];
-
-
-$sql = "SELECT p.*, u.full_name as student_name, u.email as student_email, c.title as course_name 
-        FROM payments p
-        JOIN users u ON p.student_id = u.id
-        JOIN courses c ON p.course_id = c.id
-        WHERE p.id = '$id'";
-
-$result = $db->query($sql);
-$inv = $result->fetch_object();
-
-if (!$inv) {
-    die("Invoice not found!");
+if (isset($_GET['delete_id'])) {
+    $delete_id = (int)$_GET['delete_id'];
+    $db->query("DELETE FROM lessons WHERE id = '$delete_id'");
+    header("Location: manage_lessons.php?course_id=$course_id&msg=Deleted");
+    exit;
 }
 
 
+$course_res = $db->query("SELECT title FROM courses WHERE id = '$course_id'");
+$course = $course_res->fetch_object();
+$lessons = $db->query("SELECT * FROM lessons WHERE course_id = '$course_id' ORDER BY order_index ASC");
 
-
+function mysqli_real_escape_with_str($db, $str) {
+    return mysqli_real_escape_string($db, $str);
+}
 ?>
 
 
@@ -395,7 +402,7 @@ if (!$inv) {
                              role="tablist">
                             <div class="col-auto">
                                 <a href="student-my-courses.html"
-                                   class="btn btn-outline-secondary">Create Lessions</a>
+                                   class="btn btn-outline-secondary">Lessions</a>
                             </div>
                         </div>
 
@@ -414,74 +421,40 @@ if (!$inv) {
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content"> <br><br><br>
             
-  <div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="card-body p-5">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h2 class="text-primary mb-0">INVOICE</h2>
-                    <p class="text-muted">#<?= $inv->transaction_id ?></p>
-                </div>
-                <div class="text-right">
-                    <h4>Your Brand Name</h4>
-                    <p>contact@yourwebsite.com<br>Dhaka, Bangladesh</p>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <h6 class="text-muted">Billed To:</h6>
-                    <h5><?= htmlspecialchars($inv->student_name) ?></h5>
-                    <p><?= htmlspecialchars($inv->student_email) ?><br>
-                       Mobile: <?= $inv->mobile_number ?></p>
-                </div>
-                <div class="col-sm-6 text-sm-right">
-                    <h6 class="text-muted">Payment Details:</h6>
-                    <p>Date: <?= date('d M, Y', strtotime($inv->created_at)) ?><br>
-                       Status: <span class="badge badge-success"><?= strtoupper($inv->payment_status) ?></span><br>
-                       Method: SSLCommerz</p>
-                </div>
-            </div>
-
-            <table class="table table-striped">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th>Description</th>
-                        <th class="text-right">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><?= htmlspecialchars($inv->course_name) ?></td>
-                        <td class="text-right"><?= number_format($inv->amount, 2) ?> BDT</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th class="text-right">Total:</th>
-                        <th class="text-right"><?= number_format($inv->amount, 2) ?> BDT</th>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <div class="mt-5 text-center no-print">
-                <button onclick="window.print()" class="btn btn-primary btn-lg">
-                    <i class="material-icons">print</i> Print Invoice
-                </button>
-                <a href="manage_invoices.php" class="btn btn-outline-secondary btn-lg">Back to List</a>
+            
+<div class="container_fluid">
+    <div class="row">
+        <div class="col-md-11">
+            <div class="card p-4">
+                <h4>Add New Lesson</h4>
+                <hr>
+                <form method="POST">
+                    <div class="form-group">
+                        <label>Lesson Title</label>
+                        <input type="text" name="title" class="form-control" required placeholder="e.g. Introduction">
+                    </div>
+                    <div class="form-group">
+                        <label>Content (Text/HTML)</label>
+                        <textarea name="content" class="form-control" rows="6" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label><strong>Select Course</strong></label>
+                        <select name="course_id" class="form-control" required>
+                            <option value="">-- Select a Course --</option>
+                            <?php while($c = $all_courses->fetch_object()): ?>
+                                <option value="<?= $c->id ?>"><?= htmlspecialchars($c->title) ?> (ID: <?= $c->id ?>)</option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
+                    <button type="submit" name="add_lesson" class="btn btn-primary btn-block">Create Lesson</button>
+                    <a href="view_lessons.php" class="btn btn-link btn-block">Back to Lessions</a>
+                </form>
             </div>
         </div>
+
     </div>
 </div>
 
-<style>
-@media print {
-    .no-print { display: none; }
-    .card { border: 0; box-shadow: none; }
-}
-</style>
            
     
                 <!-- // END Page Content -->

@@ -99,7 +99,7 @@ $courses = $db->query($sql);
                                                     <span class="h6 mb-0 text-primary font-weight-bold">$<?= $row->price; ?></span>
                                                 <?php endif; ?>
                                             </div>
-                                            <a href="pyment_getway/checkout_hosted.php?= $row->id; ?>" class="btn btn-primary btn-sm rounded">Enroll</a>
+                                            <a href="example_hosted.php?course_id=<?= $row->id;?>" class="btn btn-primary btn-sm rounded">Enroll</a>
                                         </div>
                                     </div>
                                 </div>

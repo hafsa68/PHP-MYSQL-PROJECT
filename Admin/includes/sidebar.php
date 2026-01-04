@@ -98,6 +98,18 @@ $display_name = !empty($_SESSION['full_name']) ? $_SESSION['full_name'] : ($_SES
                                     <span class="sidebar-menu-text">Manage Courses</span>
                                 </a>
                             </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="view_lessons.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                                    <span class="sidebar-menu-text">Manage Lessions</span>
+                                </a>
+                                <a class="sidebar-menu-button"
+                                   href="manage_lessons.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                                    <span class="sidebar-menu-text">Add Lessions</span>
+                                </a>
+                            </li>
                            <li class="sidebar-menu-item">
                                 <a class="sidebar-menu-button"
                                    data-toggle="collapse"
@@ -165,6 +177,13 @@ $display_name = !empty($_SESSION['full_name']) ? $_SESSION['full_name'] : ($_SES
                                    href="teachers_list.php">
                                     <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">post_add</span>
                                     <span class="sidebar-menu-text">Teachers List</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a class="sidebar-menu-button"
+                                   href="invoice_history.php">
+                                    <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">post_add</span>
+                                    <span class="sidebar-menu-text">Invoice History</span>
                                 </a>
                             </li>
 

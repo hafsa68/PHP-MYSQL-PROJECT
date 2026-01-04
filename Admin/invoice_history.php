@@ -8,28 +8,14 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) {
 }
 
 
-
-
-$id = (int)$_GET['id'];
-
-
-$sql = "SELECT p.*, u.full_name as student_name, u.email as student_email, c.title as course_name 
+$sql = "SELECT p.*, u.full_name as student_name,u.email as student_email, c.title as course_name 
         FROM payments p
         JOIN users u ON p.student_id = u.id
         JOIN courses c ON p.course_id = c.id
-        WHERE p.id = '$id'";
-
+        ORDER BY p.created_at DESC";
 $result = $db->query($sql);
-$inv = $result->fetch_object();
-
-if (!$inv) {
-    die("Invoice not found!");
-}
-
-
-
-
 ?>
+
 
 
 <!DOCTYPE html>
@@ -413,76 +399,76 @@ if (!$inv) {
 
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content"> <br><br><br>
-            
-  <div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="card-body p-5">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h2 class="text-primary mb-0">INVOICE</h2>
-                    <p class="text-muted">#<?= $inv->transaction_id ?></p>
-                </div>
-                <div class="text-right">
-                    <h4>Your Brand Name</h4>
-                    <p>contact@yourwebsite.com<br>Dhaka, Bangladesh</p>
-                </div>
-            </div>
+ <div class="container-fluid page__container">
+    <div class="page-separator">
+        <div class="page-separator__text">Invoice History</div>
+    </div>
 
-            <hr>
-
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <h6 class="text-muted">Billed To:</h6>
-                    <h5><?= htmlspecialchars($inv->student_name) ?></h5>
-                    <p><?= htmlspecialchars($inv->student_email) ?><br>
-                       Mobile: <?= $inv->mobile_number ?></p>
-                </div>
-                <div class="col-sm-6 text-sm-right">
-                    <h6 class="text-muted">Payment Details:</h6>
-                    <p>Date: <?= date('d M, Y', strtotime($inv->created_at)) ?><br>
-                       Status: <span class="badge badge-success"><?= strtoupper($inv->payment_status) ?></span><br>
-                       Method: SSLCommerz</p>
-                </div>
-            </div>
-
-            <table class="table table-striped">
-                <thead class="bg-dark text-white">
+    <div class="card mb-0">
+        <div class="table-responsive">
+            <table class="table table-flush table-nowrap table-hover">
+                <thead class="thead-light">
                     <tr>
-                        <th>Description</th>
-                        <th class="text-right">Amount</th>
+                        <th>#Invoice</th>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th class="text-right">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><?= htmlspecialchars($inv->course_name) ?></td>
-                        <td class="text-right"><?= number_format($inv->amount, 2) ?> BDT</td>
-                    </tr>
+                    <?php if($result && $result->num_rows > 0): ?>
+                        <?php while($row = $result->fetch_object()): ?>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="flex">
+                                        <span class="text-dark"><strong>#<?= $row->transaction_id ?></strong></span><br>
+                                        <small class="text-muted">Trx: <?= $row->transaction_number ?></small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong><?= htmlspecialchars($row->student_name) ?></strong><br>
+                                <small class="text-muted"><?= htmlspecialchars($row->student_email) ?></small>
+                            </td>
+                            <td><?= htmlspecialchars($row->course_name) ?></td>
+                            <td><strong><?= number_format($row->amount, 2) ?> BDT</strong></td>
+                            <td>
+                                <span class="badge badge-soft-info">
+                                    <?= ($row->payment_method_id == 1) ? 'SSLCommerz' : 'Manual' ?>
+                                </span>
+                            </td>
+                            <td>
+                                <?php if($row->payment_status == 'completed' || $row->payment_status == 'Success'): ?>
+                                    <span class="badge badge-success">PAID</span>
+                                <?php elseif($row->payment_status == 'pending'): ?>
+                                    <span class="badge badge-warning">PENDING</span>
+                                <?php else: ?>
+                                    <span class="badge badge-danger"><?= strtoupper($row->payment_status) ?></span>
+                                <?php endif; ?>
+                            </td>
+                            <td><?= date('d M, Y', strtotime($row->created_at)) ?></td>
+                            <td class="text-right">
+                                <a href="view_ad_invoice.php?id=<?= $row->id ?>" class="btn btn-sm btn-outline-primary">
+                                    <i class="material-icons">visibility</i> View
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="8" class="text-center p-4 text-muted">No invoices found.</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th class="text-right">Total:</th>
-                        <th class="text-right"><?= number_format($inv->amount, 2) ?> BDT</th>
-                    </tr>
-                </tfoot>
             </table>
-
-            <div class="mt-5 text-center no-print">
-                <button onclick="window.print()" class="btn btn-primary btn-lg">
-                    <i class="material-icons">print</i> Print Invoice
-                </button>
-                <a href="manage_invoices.php" class="btn btn-outline-secondary btn-lg">Back to List</a>
-            </div>
         </div>
     </div>
-</div>
-
-<style>
-@media print {
-    .no-print { display: none; }
-    .card { border: 0; box-shadow: none; }
-}
-</style>
-           
+</div>  
     
                 <!-- // END Page Content -->
 

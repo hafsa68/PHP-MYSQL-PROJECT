@@ -414,64 +414,58 @@ if (!$inv) {
     <div class="mdk-drawer-layout js-mdk-drawer-layout" data-push data-responsive-width="992px">
         <div class="mdk-drawer-layout__content page-content"> <br><br><br>
             
-  <div class="container mt-5">
-    <div class="card shadow-lg border-0">
-        <div class="card-body p-5">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <h2 class="text-primary mb-0">INVOICE</h2>
-                    <p class="text-muted">#<?= $inv->transaction_id ?></p>
-                </div>
-                <div class="text-right">
-                    <h4>Your Brand Name</h4>
-                    <p>contact@yourwebsite.com<br>Dhaka, Bangladesh</p>
-                </div>
+  <div class="container mt-4">
+    <div class="alert alert-secondary d-flex justify-content-between align-items-center no-print shadow-sm">
+        <div>
+            <strong>Admin Actions:</strong> 
+            Status: <span class="badge badge-<?= ($inv->payment_status == 'completed') ? 'success' : 'warning' ?>">
+                <?= strtoupper($inv->payment_status) ?>
+            </span>
+        </div>
+        <div>
+            <button onclick="window.print()" class="btn btn-sm btn-dark"><i class="material-icons">print</i> Print</button>
+        </div>
+    </div>
+
+    <div class="card shadow p-4 border-0" id="invoice-print-area">
+        <div class="row">
+            <div class="col-6">
+                <h3 class="text-primary fw-bold">CODEUM LMS</h3>
+                <p>Invoice ID: #<?= $inv->transaction_id ?><br>Date: <?= date('M d, Y', strtotime($inv->created_at)) ?></p>
             </div>
-
-            <hr>
-
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <h6 class="text-muted">Billed To:</h6>
-                    <h5><?= htmlspecialchars($inv->student_name) ?></h5>
-                    <p><?= htmlspecialchars($inv->student_email) ?><br>
-                       Mobile: <?= $inv->mobile_number ?></p>
-                </div>
-                <div class="col-sm-6 text-sm-right">
-                    <h6 class="text-muted">Payment Details:</h6>
-                    <p>Date: <?= date('d M, Y', strtotime($inv->created_at)) ?><br>
-                       Status: <span class="badge badge-success"><?= strtoupper($inv->payment_status) ?></span><br>
-                       Method: SSLCommerz</p>
-                </div>
+            <div class="col-6 text-right text-end">
+                <h5>Invoice To:</h5>
+                <p><strong><?= htmlspecialchars($inv->student_name) ?></strong><br>
+                <?= htmlspecialchars($inv->student_email) ?><br>
+                Phone: <?= $inv->mobile_number ?></p>
             </div>
+        </div>
 
-            <table class="table table-striped">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th>Description</th>
-                        <th class="text-right">Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><?= htmlspecialchars($inv->course_name) ?></td>
-                        <td class="text-right"><?= number_format($inv->amount, 2) ?> BDT</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th class="text-right">Total:</th>
-                        <th class="text-right"><?= number_format($inv->amount, 2) ?> BDT</th>
-                    </tr>
-                </tfoot>
-            </table>
+        <table class="table table-bordered mt-4">
+            <thead class="bg-light">
+                <tr>
+                    <th>Item Description</th>
+                    <th class="text-center">Gateway</th>
+                    <th class="text-right text-end">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Purchase of: <strong><?= htmlspecialchars($inv->course_name) ?></strong></td>
+                    <td class="text-center">SSLCommerz (<?= $inv->transaction_number ?>)</td>
+                    <td class="text-right text-end"><?= number_format($inv->amount, 2) ?> BDT</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="mt-5 text-center no-print">
-                <button onclick="window.print()" class="btn btn-primary btn-lg">
-                    <i class="material-icons">print</i> Print Invoice
-                </button>
-                <a href="manage_invoices.php" class="btn btn-outline-secondary btn-lg">Back to List</a>
+        <div class="row justify-content-end">
+            <div class="col-4 text-right text-end">
+                <p><strong>Grand Total: <?= number_format($inv->amount, 2) ?> BDT</strong></p>
             </div>
+        </div>
+        
+        <div class="mt-5 pt-3 border-top text-center text-muted">
+            <p>This is a computer-generated invoice. No signature required.</p>
         </div>
     </div>
 </div>

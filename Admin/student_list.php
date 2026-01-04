@@ -379,7 +379,9 @@ session_start();
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 // Default image if avatar is null
-                                $user_img = !empty($row['avatar']) ? "public/images/avatars/" . $row['avatar'] : "public/images/people/110/guy-1.jpg";
+                                $user_img = (!empty($_SESSION['avatar'])) ? "../uploads/" . $_SESSION['avatar'] : "public/images/people/110/guy-1.jpg";
+
+                                
                                 $full_name = !empty($row['full_name']) ? htmlspecialchars($row['full_name']) : "Guest Student";
                                 $email = htmlspecialchars($row['email']);
                                 $phone = !empty($row['phone']) ? htmlspecialchars($row['phone']) : "No Phone";
